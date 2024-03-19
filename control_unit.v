@@ -17,7 +17,6 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
     //combinational logic which makes control signals using part_of_inst(i.e. opcode)
     always @(*) begin
 
-
         if(opcode == `JAL) is_jal = 1;
         else is_jal = 0;
         
