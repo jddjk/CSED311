@@ -1,3 +1,5 @@
+`include "opcode.v"
+
 module control_unit(
     input [31:0] instruction,
     output reg write_enable,

@@ -1,3 +1,5 @@
+`include "opcode.v"
+
 module alu_control_unit(
     input [31:0] instruction,
     output reg[3:0] alu_op
