@@ -1,7 +1,7 @@
 `include "opcodes.v"
 
 module control_unit(
-    input [31:0] instruction,
+    input [6:0] instruction,
     output reg write_enable,
     output reg alu_src,
     output reg mem_read,

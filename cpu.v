@@ -21,7 +21,6 @@ module cpu(input reset,                     // positive reset signal
   wire [31:0] alu_in_2;
   wire [31:0] alu_result;
   wire [31:0] mux1_result;
-  wire [31:0] mux2_result;
   wire [31:0] add_four_pc;
   wire [31:0] write_data;
   wire [31:0] dmem_out;
@@ -42,7 +41,7 @@ module cpu(input reset,                     // positive reset signal
   wire JAL_or_bab;
   wire PCtoReg;
 
-  assign bcond_and_branch = bcond & branch; //PCSrc2
+  assign bcond_and_branch = bcond & branch;
   assign JAL_or_bab = JAL | bcond_and_branch; //PCSrc1
   /***** Register declarations *****/
 
@@ -51,7 +50,7 @@ module cpu(input reset,                     // positive reset signal
   pc pc(
     .reset(reset),       // input (Use reset to initialize PC. Initial value must be 0)
     .clk(clk),         // input
-    .next_pc(mux2_result),     // input
+    .next_pc(next_pc),     // input
     .current_pc(current_pc)   // output
   );
   
@@ -70,23 +69,23 @@ module cpu(input reset,                     // positive reset signal
     .rs1 (imem_dout[19:15]),          // input
     .rs2 (imem_dout[24:20]),          // input
     .rd (imem_dout[11:7]),           // input
-    .rd_din (write_data),       // input
-    .write_enable (RegWrite), // input
+    .rd_din (write_data),          // input
+    .write_enable (RegWrite), // input          
     .rs1_dout (rs1_dout),     // output
     .rs2_dout (rs2_dout),     // output
     .print_reg (print_reg)  //DO NOT TOUCH THIS
-  );
+  );      
 
 
   // ---------- Control Unit ----------
   control_unit ctrl_unit (
-    .instruction(imem_dout),  // input
+    .instruction(imem_dout[6:0]),  // input
     .is_jal(JAL),        // output
     .is_jalr(JALR),       // output
     .branch(branch),        // output
     .mem_read(MemRead),      // output
     .mem_to_reg(MemtoReg),    // output
-    .mem_write(MemWrite),     // output
+    .mem_write(MemWrite),     // output     
     .alu_src(ALUSrc),       // output
     .write_enable(RegWrite),  // output
     .pc_to_reg(PCtoReg),     // output
@@ -101,7 +100,9 @@ module cpu(input reset,                     // positive reset signal
 
   // ---------- ALU Control Unit ----------
   alu_control_unit alu_ctrl_unit (
-    .instruction(imem_dout),  // input
+    .opcode(imem_dout[6:0]),  // input
+    .funct3(imem_dout[14:12]),  // input
+    .funct7(imem_dout[31:25]),  // input
     .alu_op(alu_op)         // output
   );
 
@@ -110,7 +111,6 @@ module cpu(input reset,                     // positive reset signal
     .alu_op(alu_op),      // input
     .alu_in_1(rs1_dout),    // input  
     .alu_in_2(alu_in_2),    // input
-    .sign_extended_imm(imm_gen_out),  // input
     .alu_result(alu_result),  // output
     .bcond(bcond)    // output
   );
@@ -140,16 +140,16 @@ module cpu(input reset,                     // positive reset signal
 
   // ---------- mux ----------
   mux mux1(
-    .sel(bcond_and_branch),
+    .sel(JAL_or_bab),
     .in0(add_four_pc),
     .in1(add_sum),
     .out(mux1_result)
   );
   mux mux2(
-    .sel(JAL),
+    .sel(JALR),
     .in0(mux1_result),
     .in1(alu_result),
-    .out(mux2_result)
+    .out(next_pc)
   );
   mux mux3(
     .sel(PCtoReg),

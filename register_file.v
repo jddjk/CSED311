@@ -17,15 +17,13 @@ module register_file(input	reset,
   // TODO
   // Asynchronously read register file
   // Synchronously write data to the register file
-  always @(*) begin
-    rs1_dout = rf[rs1];
-    rs2_dout = rf[rs2];
-  end
+  assign rs1_dout = rf[rs1];
+  assign rs2_dout = rf[rs2];
+  assign print_reg = rf;
 
-  //write data 할 때 load를 쓰느냐
   always @(posedge clk) begin
     if (write_enable) begin
-      rf[rd] = rd_din;
+      rf[rd] <= rd_din;
     end
   end
 

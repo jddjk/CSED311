@@ -1,64 +1,68 @@
 `include "opcodes.v"
+`define ALU_ADD  3'b000
+`define ALU_SUB  3'b001
+`define ALU_SLL  3'b010
+`define ALU_XOR  3'b011
+`define ALU_OR   3'b100
+`define ALU_AND  3'b101
+`define ALU_SRL  3'b110
+`define ALU_SRA  3'b111
 
 module alu_control_unit(
-    input [31:0] instruction,
+    input [6:0] opcode,
+    input [2:0] funct3,
+    input [6:0] funct7,
     output reg[2:0] alu_op
 );
-    wire [6:0] opcode = instruction[6:0];
-    wire [2:0] funct3 = instruction[14:12];
-    wire [6:0] funct7 = instruction[31:25];
 
     //combinational logic to determine the alu operation using part_of_inst(i.e. opcode, funct3, funct7)
-    always @(*)begin
-    //have to implement alu accordingly to this operation constants
-
-    //may fully implemented
-        if(funct3==`FUNCT3_BEQ && opcode==`BRANCH) begin
-            alu_op= `FUNCT3_BEQ;
-        end else if (funct3==`FUNCT3_BNE && opcode==`BRANCH) begin
-            alu_op= `FUNCT3_BNE;
-        end else if (funct3==`FUNCT3_BLT && opcode==`BRANCH) begin
-            alu_op= `FUNCT3_BLT;
-        end else if (funct3==`FUNCT3_BGE && opcode==`BRANCH) begin
-            alu_op= `FUNCT3_BGE;
-
-    //this part is not fully implemented
-        end else if (funct3==`FUNCT3_LW && opcode==`LOAD) begin
-            alu_op= `FUNCT3_LW;
-        end else if (funct3==`FUNCT3_SW && opcode==`STORE) begin
-            alu_op= `FUNCT3_SW;
-
-
-    //this part is not fully implemented
-        end else if (funct3==`FUNCT3_ADD && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
-            alu_op= `FUNCT3_ADD;
-        end else if (funct3==`FUNCT3_SUB && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
-            alu_op= `FUNCT3_SUB;
-
-    //may fully implemented
-        end else if (funct3==`FUNCT3_XOR && funct3==`FUNCT3_SUB && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
-            alu_op= `FUNCT3_XOR;
-        end else if (funct3==`FUNCT3_OR && funct3==`FUNCT3_SUB && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
-            alu_op= `FUNCT3_OR;
-        end else if (funct3==`FUNCT3_AND && funct3==`FUNCT3_SUB && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
-            alu_op= `FUNCT3_AND;
-
-    //this part is not fully implemented
-        end else if (funct3==`FUNCT3_SLL && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
-            alu_op= `FUNCT3_SLL;
-
-    //this part is not fully implemented
-        end else if (funct3==`FUNCT3_SRL && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
-            alu_op= `FUNCT3_SRL;
-
-    //this part is not fully implemented
-        end else if (funct7==`FUNCT7_SUB && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
-            alu_op= `FUNCT7_SUB;
-        end else begin
-            alu_op= `FUNCT7_OTHERS;
-        end
-
-
+    always @(*) begin
+        case (opcode)
+            `ARITHMETIC: begin
+                case (funct3)
+                    `FUNCT3_ADD: alu_op = `ALU_ADD;
+                    `FUNCT3_SUB: begin
+                        if (funct7 == `FUNCT7_SUB)
+                            alu_op = `ALU_SUB;
+                        else
+                            alu_op = `ALU_ADD;
+                    end
+                    `FUNCT3_SLL: alu_op = `ALU_SLL;
+                    `FUNCT3_XOR: alu_op = `ALU_XOR;
+                    `FUNCT3_OR:  alu_op = `ALU_OR;
+                    `FUNCT3_AND: alu_op = `ALU_AND;
+                    `FUNCT3_SRL: begin
+                        if (funct7 == `FUNCT7_SUB)
+                            alu_op = `ALU_SRA;
+                        else
+                            alu_op = `ALU_SRL;
+                    end
+                    default: alu_op = `ALU_ADD;
+                endcase
+            end
+            `ARITHMETIC_IMM: begin
+                case (funct3)
+                    `FUNCT3_ADD: alu_op = `ALU_ADD;
+                    `FUNCT3_SLL: alu_op = `ALU_SLL;
+                    `FUNCT3_XOR: alu_op = `ALU_XOR;
+                    `FUNCT3_OR:  alu_op = `ALU_OR;
+                    `FUNCT3_AND: alu_op = `ALU_AND;
+                    `FUNCT3_SRL: alu_op = `ALU_SRL;
+                    default: alu_op = `ALU_ADD;
+                endcase
+            end
+            `BRANCH: begin
+                case (funct3)
+                    `FUNCT3_BEQ: alu_op = `ALU_SUB;
+                    `FUNCT3_BNE: alu_op = `ALU_SUB;
+                    `FUNCT3_BLT: alu_op = `ALU_SLL;
+                    `FUNCT3_BGE: alu_op = `ALU_SRL;
+                    default: alu_op = `ALU_SUB;
+                endcase
+            end
+            `LOAD:  alu_op = `ALU_ADD;
+            `STORE: alu_op = `ALU_ADD;
+            default: alu_op = `ALU_ADD;
+        endcase
     end
-
-endmodule
+endmodule 
