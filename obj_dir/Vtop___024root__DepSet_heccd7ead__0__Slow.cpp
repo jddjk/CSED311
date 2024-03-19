@@ -23,11 +23,7 @@ VL_ATTR_COLD void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
     vlSelf->__Vm_traceActivity[2U] = 1U;
     vlSelf->__Vm_traceActivity[1U] = 1U;
     vlSelf->__Vm_traceActivity[0U] = 1U;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__next_pc__0 
-        = vlSelf->top__DOT__cpu__DOT__next_pc;
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = vlSelf->clk;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__next_pc__1 
-        = vlSelf->top__DOT__cpu__DOT__next_pc;
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_in_2__0 
         = vlSelf->top__DOT__cpu__DOT__alu_in_2;
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0 
@@ -97,9 +93,6 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
     if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
         VL_DBG_MSGF("         'stl' region trigger index 0 is active: Internal 'stl' trigger - first iteration\n");
     }
-    if ((2ULL & vlSelf->__VstlTriggered.word(0U))) {
-        VL_DBG_MSGF("         'stl' region trigger index 1 is active: @([hybrid] top.cpu.next_pc)\n");
-    }
 }
 #endif  // VL_DEBUG
 
@@ -108,18 +101,24 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___stl_sequent__TOP__0\n"); );
     // Body
+    vlSelf->top__DOT__cpu__DOT__add_four_pc = ((IData)(4U) 
+                                               + vlSelf->top__DOT__cpu__DOT__current_pc);
     vlSelf->top__DOT__cpu__DOT__rs1_dout = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [(0x1fU & (vlSelf->top__DOT__cpu__DOT__imem__DOT__mem
                    [(0x3ffU & (vlSelf->top__DOT__cpu__DOT__current_pc 
                                >> 2U))] >> 0xfU))];
-    vlSelf->top__DOT__cpu__DOT____Vcellinp__reg_file__rs2 
-        = (0x1fU & (vlSelf->top__DOT__cpu__DOT__imem__DOT__mem
-                    [(0x3ffU & (vlSelf->top__DOT__cpu__DOT__current_pc 
-                                >> 2U))] >> 0x14U));
     vlSelf->top__DOT__cpu__DOT____Vcellinp__alu_ctrl_unit__funct3 
         = (7U & (vlSelf->top__DOT__cpu__DOT__imem__DOT__mem
                  [(0x3ffU & (vlSelf->top__DOT__cpu__DOT__current_pc 
                              >> 2U))] >> 0xcU));
+    vlSelf->top__DOT__cpu__DOT____Vcellinp__alu_ctrl_unit__funct7 
+        = (vlSelf->top__DOT__cpu__DOT__imem__DOT__mem
+           [(0x3ffU & (vlSelf->top__DOT__cpu__DOT__current_pc 
+                       >> 2U))] >> 0x19U);
+    vlSelf->top__DOT__cpu__DOT____Vcellinp__reg_file__rs2 
+        = (0x1fU & (vlSelf->top__DOT__cpu__DOT__imem__DOT__mem
+                    [(0x3ffU & (vlSelf->top__DOT__cpu__DOT__current_pc 
+                                >> 2U))] >> 0x14U));
     vlSelf->top__DOT__cpu__DOT__imem_dout = vlSelf->top__DOT__cpu__DOT__imem__DOT__mem
         [(0x3ffU & (vlSelf->top__DOT__cpu__DOT__current_pc 
                     >> 2U))];
@@ -350,13 +349,7 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                          & (IData)(vlSelf->top__DOT__cpu__DOT____Vcellinp__alu_ctrl_unit__funct3))
                                                          ? 
                                                         ((0x20U 
-                                                          == 
-                                                          (vlSelf->top__DOT__cpu__DOT__imem__DOT__mem
-                                                           [
-                                                           (0x3ffU 
-                                                            & (vlSelf->top__DOT__cpu__DOT__current_pc 
-                                                               >> 2U))] 
-                                                           >> 0x19U))
+                                                          == (IData)(vlSelf->top__DOT__cpu__DOT____Vcellinp__alu_ctrl_unit__funct7))
                                                           ? 7U
                                                           : 6U)
                                                          : 3U))
@@ -368,7 +361,11 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                        ((1U 
                                                          & (IData)(vlSelf->top__DOT__cpu__DOT____Vcellinp__alu_ctrl_unit__funct3))
                                                          ? 2U
-                                                         : 0U)))
+                                                         : 
+                                                        ((0x20U 
+                                                          == (IData)(vlSelf->top__DOT__cpu__DOT____Vcellinp__alu_ctrl_unit__funct7))
+                                                          ? 1U
+                                                          : 0U))))
                                                       : 0U)
                                                      : 0U)));
             vlSelf->top__DOT__cpu__DOT__imm_gen_out = 0U;
@@ -453,6 +450,8 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                        : 0U)
                                                       : 0U)));
     }
+    vlSelf->top__DOT__cpu__DOT__add_sum = (vlSelf->top__DOT__cpu__DOT__current_pc 
+                                           + vlSelf->top__DOT__cpu__DOT__imm_gen_out);
     vlSelf->top__DOT__cpu__DOT__alu_in_2 = (((0x13U 
                                               == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode)) 
                                              | ((3U 
@@ -463,9 +462,6 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                              : vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
                                             [vlSelf->top__DOT__cpu__DOT____Vcellinp__reg_file__rs2]);
 }
-
-void Vtop___024root___act_sequent__TOP__0(Vtop___024root* vlSelf);
-void Vtop___024root___act_comb__TOP__0(Vtop___024root* vlSelf);
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
     (void)vlSelf;  // Prevent unused variable warning
@@ -478,12 +474,6 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
         vlSelf->__Vm_traceActivity[2U] = 1U;
         vlSelf->__Vm_traceActivity[1U] = 1U;
         vlSelf->__Vm_traceActivity[0U] = 1U;
-    }
-    if ((2ULL & vlSelf->__VstlTriggered.word(0U))) {
-        Vtop___024root___act_sequent__TOP__0(vlSelf);
-    }
-    if ((3ULL & vlSelf->__VstlTriggered.word(0U))) {
-        Vtop___024root___act_comb__TOP__0(vlSelf);
     }
 }
 
@@ -517,10 +507,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         'act' region trigger index 0 is active: @(posedge clk)\n");
     }
     if ((2ULL & vlSelf->__VactTriggered.word(0U))) {
-        VL_DBG_MSGF("         'act' region trigger index 1 is active: @([hybrid] top.cpu.next_pc)\n");
-    }
-    if ((4ULL & vlSelf->__VactTriggered.word(0U))) {
-        VL_DBG_MSGF("         'act' region trigger index 2 is active: @([changed] top.cpu.alu_in_2 or [changed] top.cpu.alu_op or [changed] top.cpu.rs1_dout)\n");
+        VL_DBG_MSGF("         'act' region trigger index 1 is active: @([changed] top.cpu.alu_in_2 or [changed] top.cpu.alu_op or [changed] top.cpu.rs1_dout)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -538,10 +525,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__nba(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         'nba' region trigger index 0 is active: @(posedge clk)\n");
     }
     if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        VL_DBG_MSGF("         'nba' region trigger index 1 is active: @([hybrid] top.cpu.next_pc)\n");
-    }
-    if ((4ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        VL_DBG_MSGF("         'nba' region trigger index 2 is active: @([changed] top.cpu.alu_in_2 or [changed] top.cpu.alu_op or [changed] top.cpu.rs1_dout)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 1 is active: @([changed] top.cpu.alu_in_2 or [changed] top.cpu.alu_op or [changed] top.cpu.rs1_dout)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -558,7 +542,6 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
         vlSelf->print_reg[__Vi0] = VL_RAND_RESET_I(32);
     }
     vlSelf->top__DOT__cpu__DOT__current_pc = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__cpu__DOT__next_pc = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__imem_dout = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__imm_gen_out = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__add_sum = VL_RAND_RESET_I(32);
@@ -569,6 +552,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__cpu__DOT__alu_op = VL_RAND_RESET_I(3);
     vlSelf->top__DOT__cpu__DOT__bcond = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__cpu__DOT____Vcellinp__reg_file__rs2 = VL_RAND_RESET_I(5);
+    vlSelf->top__DOT__cpu__DOT____Vcellinp__alu_ctrl_unit__funct7 = VL_RAND_RESET_I(7);
     vlSelf->top__DOT__cpu__DOT____Vcellinp__alu_ctrl_unit__funct3 = VL_RAND_RESET_I(3);
     vlSelf->top__DOT__cpu__DOT__imem__DOT__i = VL_RAND_RESET_I(32);
     for (int __Vi0 = 0; __Vi0 < 1024; ++__Vi0) {
@@ -583,10 +567,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     for (int __Vi0 = 0; __Vi0 < 16384; ++__Vi0) {
         vlSelf->top__DOT__cpu__DOT__dmem__DOT__mem[__Vi0] = VL_RAND_RESET_I(32);
     }
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__next_pc__0 = VL_RAND_RESET_I(32);
-    vlSelf->__VstlDidInit = 0;
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = VL_RAND_RESET_I(1);
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__next_pc__1 = VL_RAND_RESET_I(32);
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_in_2__0 = VL_RAND_RESET_I(32);
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0 = VL_RAND_RESET_I(3);
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__rs1_dout__0 = VL_RAND_RESET_I(32);

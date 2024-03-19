@@ -14,13 +14,14 @@ module cpu(input reset,                     // positive reset signal
            output [31:0] print_reg [0:31]); // TO PRINT REGISTER VALUES IN TESTBENCH (YOU SHOULD NOT USE THIS)
   /***** Wire declarations *****/
   wire [31:0] current_pc;
-  wire [31:0] next_pc;
+  // wire [31:0] next_pc;
   wire [31:0] imem_dout;
   wire [31:0] imm_gen_out;
   wire [31:0] add_sum;
   wire [31:0] alu_in_2;
   wire [31:0] alu_result;
   wire [31:0] mux1_result;
+  wire [31:0] mux2_result;
   wire [31:0] add_four_pc;
   wire [31:0] write_data;
   wire [31:0] dmem_out;
@@ -50,7 +51,7 @@ module cpu(input reset,                     // positive reset signal
   pc pc(
     .reset(reset),       // input (Use reset to initialize PC. Initial value must be 0)
     .clk(clk),         // input
-    .next_pc(next_pc),     // input
+    .next_pc(mux2_result),     // input
     .current_pc(current_pc)   // output
   );
   
@@ -128,13 +129,13 @@ module cpu(input reset,                     // positive reset signal
 
   // ---------- Add_alu ------------
   add_alu add_alu(
-    .alu_in1(next_pc),
+    .alu_in1(current_pc),
     .alu_in2(imm_gen_out),
     .alu_result(add_sum)
   );
 
   add_alu_four add_alu_four(
-    .alu_in1(next_pc),
+    .alu_in1(current_pc),
     .alu_result(add_four_pc)
   );
 
@@ -149,7 +150,7 @@ module cpu(input reset,                     // positive reset signal
     .sel(JALR),
     .in0(mux1_result),
     .in1(alu_result),
-    .out(next_pc)
+    .out(mux2_result)
   );
   mux mux3(
     .sel(PCtoReg),

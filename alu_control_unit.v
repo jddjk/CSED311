@@ -20,7 +20,7 @@ module alu_control_unit(
         case (opcode)
             `ARITHMETIC: begin
                 case (funct3)
-                    `FUNCT3_ADD: alu_op = `ALU_ADD;
+                    //`FUNCT3_ADD: alu_op = `ALU_ADD;
                     `FUNCT3_SUB: begin
                         if (funct7 == `FUNCT7_SUB)
                             alu_op = `ALU_SUB;
