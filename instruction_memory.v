@@ -30,7 +30,7 @@ module instruction_memory #(parameter MEM_DEPTH = 1024) (input reset,
         // DO NOT TOUCH COMMENT ABOVE
 
       // Provide path of the file including instructions with binary format
-      $readmemh("/Users/admin/Documents/GitHub/CSED311/student_tb/baisc_mem.txt", mem);
+      $readmemh("C:\Users\user\OneDrive\Documents\GitHub\CSED311\student_tb\basic_mem.txt", mem);
     end
   end
 
