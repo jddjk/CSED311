@@ -1,15 +1,15 @@
 module add_alu #(parameter data_width = 32)(
-    input [data_width - 1 : 0] A, 
-	input [data_width - 1 : 0] B, 
-    output reg [data_width - 1 : 0] C
+    input [data_width - 1 : 0] alu_in1, 
+	input [data_width - 1 : 0] alu_in2, 
+    output reg [data_width - 1 : 0] alu_result
 );
 
 initial begin
-    C = 0;
+    alu_result = 0;
 end
  
 always @(A, B) begin
-    C = A + B;
+    alu_result = alu_in1 + alu_in2;
 end
 
 endmodule 

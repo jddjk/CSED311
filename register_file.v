@@ -21,6 +21,8 @@ module register_file(input	reset,
     rs1_dout = rf[rs1];
     rs2_dout = rf[rs2];
   end
+
+  //write data 할 때 load를 쓰느냐
   always @(posedge clk) begin
     if (write_enable) begin
       rf[rd] = rd_din;

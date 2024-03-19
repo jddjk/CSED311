@@ -2,7 +2,7 @@
 
 module alu_control_unit(
     input [31:0] instruction,
-    output reg[3:0] alu_op
+    output reg[2:0] alu_op
 );
     wire [6:0] opcode = instruction[6:0];
     wire [2:0] funct3 = instruction[14:12];

@@ -27,7 +27,7 @@ module cpu(input reset,                     // positive reset signal
   wire [31:0] rs1_dout;
   wire [31:0] rs2_dout;
   wire [31:0] mux5_out;
-  wire [3:0] alu_op;
+  wire [2:0] alu_op;
   wire RegWrite;
   wire bcond;
   wire branch;
@@ -109,6 +109,7 @@ module cpu(input reset,                     // positive reset signal
     .alu_op(alu_op),      // input
     .alu_in_1(rs1_dout),    // input  
     .alu_in_2(alu_in_2),    // input
+    .sign_extended_imm(imm_gen_out),  // input
     .alu_result(alu_result),  // output
     .alu_bcond(bcond)    // output
   );
@@ -131,9 +132,8 @@ module cpu(input reset,                     // positive reset signal
     .alu_result(add_sum)
   );
 
-  add_alu add_alu_four(
+  add_alu_four add_alu_four(
     .alu_in1(next_pc),
-    .alu_in2(3b'100),
     .alu_result(add_four_pc)
   );
 
