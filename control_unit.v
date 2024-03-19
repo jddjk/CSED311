@@ -1,4 +1,4 @@
-`include "opcode.v"
+`include "opcodes.v"
 
 module control_unit(
     input [31:0] instruction,
