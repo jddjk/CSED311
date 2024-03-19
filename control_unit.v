@@ -1,14 +1,14 @@
 module control_unit(
     input [31:0] instruction,
-    output reg RegWrite,
-    output reg ALUSrc,
-    output reg MemRead,
-    output reg MemWrite,
-    output reg MemtoReg,
-    output reg PCtoReg,
-    output reg JAL,
-    output reg JALR,
-    output reg branch
+    output reg write_enable,
+    output reg alu_src,
+    output reg mem_read,
+    output reg mem_write,
+    output reg mem_to_reg,
+    output reg pc_to_reg,
+    output reg is_jal,
+    output reg is_jalr,
+    output reg branch,
     output reg is_halted
 );
     wire [6:0]opcode = instruction[6:0];

@@ -89,7 +89,7 @@ module cpu(input reset,                     // positive reset signal
     .alu_src(ALUSrc),       // output
     .write_enable(RegWrite),  // output
     .pc_to_reg(PCtoReg),     // output
-    .is_ecall(is_halted)       // output (ecall inst)
+    .is_halted(is_halted)       // output (ecall inst)
   );
 
   // ---------- Immediate Generator ----------
