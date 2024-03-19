@@ -13,7 +13,9 @@ module cpu(input reset,                     // positive reset signal
            output is_halted,                // Whehther to finish simulation
            output [31:0] print_reg [0:31]); // TO PRINT REGISTER VALUES IN TESTBENCH (YOU SHOULD NOT USE THIS)
   /***** Wire declarations *****/
-
+  wire [31:0] instruction;
+  wire [3:0] alu_op;
+  wire [31:0] imm_gen_out
   /***** Register declarations *****/
 
   // ---------- Update program counter ----------
@@ -50,29 +52,31 @@ module cpu(input reset,                     // positive reset signal
 
   // ---------- Control Unit ----------
   control_unit ctrl_unit (
-    .part_of_inst(),  // input
-    .is_jal(),        // output
-    .is_jalr(),       // output
-    .branch(),        // output
-    .mem_read(),      // output
-    .mem_to_reg(),    // output
-    .mem_write(),     // output
-    .alu_src(),       // output
-    .write_enable(),  // output
-    .pc_to_reg(),     // output
-    .is_ecall()       // output (ecall inst)
+    .opcode([6:0]instruction),  // input
+    .is_jal(is_jal),        // output
+    .is_jalr(is_jalr),       // output
+    .branch(branch),        // output
+    .mem_read(mem_read),      // output
+    .mem_to_reg(mem_to_reg),    // output
+    .mem_write(mem_write),     // output
+    .alu_src(alu_src),       // output
+    .write_enable(write_enable),  // output
+    .pc_to_reg(pc_to_reg),     // output
+    .is_ecall(is_halted)       // output (ecall inst)
   );
 
   // ---------- Immediate Generator ----------
   immediate_generator imm_gen(
-    .part_of_inst(),  // input
-    .imm_gen_out()    // output
+    .instruction(instruction),  // input
+    .imm_gen_out(imm_gen_out)    // output
   );
 
   // ---------- ALU Control Unit ----------
   alu_control_unit alu_ctrl_unit (
-    .part_of_inst(),  // input
-    .alu_op()         // output
+    .opcode([6:0]instruction),  // input
+    .func3([14:12]instruction),  // input
+    .func7([31:25]instruction),  // input
+    .alu_op(alu_op)    // output
   );
 
   // ---------- ALU ----------
