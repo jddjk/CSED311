@@ -8,7 +8,7 @@ initial begin
     alu_result = 0;
 end
  
-always @(A, B) begin
+always @(alu_in1, alu_in2) begin
     alu_result = alu_in1 + alu_in2;
 end
 

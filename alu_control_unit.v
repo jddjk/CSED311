@@ -9,17 +9,17 @@ module alu_control_unit(
     wire [6:0] funct7 = instruction[31:25];
 
     //combinational logic to determine the alu operation using part_of_inst(i.e. opcode, funct3, funct7)
-    always(*)begin
+    always @(*)begin
     //have to implement alu accordingly to this operation constants
 
     //may fully implemented
-        if(funct3==`FUNCT3_BEQ && opcode==`branch) begin
+        if(funct3==`FUNCT3_BEQ && opcode==`BRANCH) begin
             alu_op= `FUNCT3_BEQ;
-        end else if (funct3==`FUNCT3_BNE && opcode==`branch) begin
+        end else if (funct3==`FUNCT3_BNE && opcode==`BRANCH) begin
             alu_op= `FUNCT3_BNE;
-        end else if (funct3==`FUNCT3_BLT && opcode==`branch) begin
+        end else if (funct3==`FUNCT3_BLT && opcode==`BRANCH) begin
             alu_op= `FUNCT3_BLT;
-        end else if (funct3==`FUNCT3_BGE && opcode==`branch) begin
+        end else if (funct3==`FUNCT3_BGE && opcode==`BRANCH) begin
             alu_op= `FUNCT3_BGE;
 
     //this part is not fully implemented
@@ -54,7 +54,7 @@ module alu_control_unit(
     //this part is not fully implemented
         end else if (funct7==`FUNCT7_SUB && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
             alu_op= `FUNCT7_SUB;
-        end esle begin
+        end else begin
             alu_op= `FUNCT7_OTHERS;
         end
 

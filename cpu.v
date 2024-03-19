@@ -18,6 +18,7 @@ module cpu(input reset,                     // positive reset signal
   wire [31:0] imem_dout;
   wire [31:0] imm_gen_out;
   wire [31:0] add_sum;
+  wire [31:0] alu_in_2;
   wire [31:0] alu_result;
   wire [31:0] mux1_result;
   wire [31:0] mux2_result;
@@ -37,9 +38,9 @@ module cpu(input reset,                     // positive reset signal
   wire MemtoReg;
   wire MemWrite;
   wire ALUSrc;
-  wire RegWrite;
   wire bcond_and_branch;
   wire JAL_or_bab;
+  wire PCtoReg;
 
   assign bcond_and_branch = bcond & branch; //PCSrc2
   assign JAL_or_bab = JAL | bcond_and_branch; //PCSrc1
@@ -79,7 +80,7 @@ module cpu(input reset,                     // positive reset signal
 
   // ---------- Control Unit ----------
   control_unit ctrl_unit (
-    .part_of_inst(imem_dout),  // input
+    .instruction(imem_dout),  // input
     .is_jal(JAL),        // output
     .is_jalr(JALR),       // output
     .branch(branch),        // output
@@ -94,13 +95,13 @@ module cpu(input reset,                     // positive reset signal
 
   // ---------- Immediate Generator ----------
   immediate_generator imm_gen(
-    .part_of_inst(imem_dout),  // input
-    .imm_gen_out(imm_gen_out)    // output
+    .instruction(imem_dout),  // input
+    .ex_immediate(imm_gen_out)    // output
   );
 
   // ---------- ALU Control Unit ----------
   alu_control_unit alu_ctrl_unit (
-    .part_of_inst(imem_dout),  // input
+    .instruction(imem_dout),  // input
     .alu_op(alu_op)         // output
   );
 
@@ -111,7 +112,7 @@ module cpu(input reset,                     // positive reset signal
     .alu_in_2(alu_in_2),    // input
     .sign_extended_imm(imm_gen_out),  // input
     .alu_result(alu_result),  // output
-    .alu_bcond(bcond)    // output
+    .bcond(bcond)    // output
   );
 
   // ---------- Data Memory ----------

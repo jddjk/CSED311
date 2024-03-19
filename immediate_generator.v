@@ -1,5 +1,5 @@
 module immediate_generator(
-    input [31:0] instruction
+    input [31:0] instruction,
     output [31:0] ex_immediate
 );
     wire [6:0] opcode = instruction[6:0];
