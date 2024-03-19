@@ -5,7 +5,7 @@ module alu_control_unit(opcode, func3, func7,alu_op);
     input [6:0] opcode;
     input [2:0] func3;
     input [6:0] func7;
-    output reg [3:0] alu_op;
+    output reg [2:0] alu_op;
 
 //combinational logic to determine the alu operation using part_of_inst(i.e. opcode, func3, func7)
 always(*)begin
