@@ -27,10 +27,10 @@ module cpu(input reset,                     // positive reset signal
   wire [31:0] rs1_dout;
   wire [31:0] rs2_dout;
   wire [31:0] mux5_out;
+  wire [3:0] alu_op;
   wire RegWrite;
   wire bcond;
   wire branch;
-  wire alu_op;
   wire JALR;
   wire JAL;
   wire MemRead;

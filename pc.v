@@ -5,4 +5,6 @@ module pc(
     output reg [31:0]current_pc;
 );
 
+
+
 endmodule

@@ -1,11 +1,11 @@
 `include "alu_func.v"
 
 module alu #(parameter data_width = 32) (
-	input [data_width - 1 : 0] A, 
-	input [data_width - 1 : 0] B, 
-	input [3 : 0] FuncCode,
-       	output reg [data_width - 1: 0] C,
-       	output reg OverflowFlag);
+	input [data_width - 1 : 0] alu_in_1, 
+	input [data_width - 1 : 0] alu_in_2, 
+	input [3 : 0] alu_op,
+       	output reg [data_width - 1: 0] alu_result,
+       	output reg bcond);
 // Do not use delay in your implementation.
 
 // You can declare any variables as needed.
