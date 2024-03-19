@@ -6,5 +6,4 @@ module mux (input [31:0] in2,
     case (sel)
         1'b0: out = in1;
         1'b1: out = in2;
-
 endmodule 
