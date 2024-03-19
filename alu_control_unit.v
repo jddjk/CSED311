@@ -27,6 +27,7 @@ always(*)begin
     end else if (func3==`FUNCT3_SW && opcode==`STORE) begin
         alu_op= `FUNCT3_SW;
 
+
 //this part is not fully implemented
     end else if (func3==`FUNCT3_ADD && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
         alu_op= `FUNCT3_ADD;
