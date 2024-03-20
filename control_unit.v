@@ -1,8 +1,9 @@
 `include "opcodes.v"
 
 
-module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_write, alu_src, write_enable, pc_to_reg, is_ecall, x17_val);
+module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_write, alu_src, write_enable, pc_to_reg, is_ecall, x17_val ,ALUSRC);
     input [6:0] opcode;
+    input reg [31:0] x17_val;
     output reg is_jal;
     output reg is_jalr;
     output reg branch;
@@ -13,7 +14,7 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
     output reg write_enable;
     output reg pc_to_reg;
     output reg is_ecall;
-    input reg [31:0] x17_val;
+    output reg [1:0] ALUSRC;
 
     initial begin
         write_enable = 0;
@@ -26,6 +27,7 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
         is_jalr = 0;
         branch = 0;
         is_ecall = 0;
+        ALUSRC = 2'b01;
  
     end
 
@@ -41,6 +43,7 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
         is_jalr = 0;
         branch = 0;
         is_ecall = 0;
+        ALUSRC = 2'b01;
 
         if(opcode == `JAL) is_jal = 1;
         else is_jal = 0;
@@ -70,6 +73,14 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
 
         if(opcode == `JAL || opcode==`JALR) pc_to_reg = 1;
         else pc_to_reg = 0;
+
+        if(opcode == `AUIPC) begin
+            ALUSRC= 2'b0;
+        end else if(opcode == `LUI) begin
+            ALUSRC= 2'b10;
+        end else begin
+            ALUSRC= 2'b01;
+        end
 
         if(opcode == `ECALL && x17_val ==10) is_ecall = 1;
         else is_ecall = 0;

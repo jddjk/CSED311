@@ -28,8 +28,8 @@ VL_ATTR_COLD void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
         = vlSelf->top__DOT__cpu__DOT__alu_in_2;
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0 
         = vlSelf->top__DOT__cpu__DOT__alu_op;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__rs1_dout__0 
-        = vlSelf->top__DOT__cpu__DOT__rs1_dout;
+    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__twoDigitMux_result__0 
+        = vlSelf->top__DOT__cpu__DOT__twoDigitMux_result;
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
@@ -47,6 +47,7 @@ VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__cpu__DOT__is_jalr = 0U;
     vlSelf->top__DOT__cpu__DOT__branch = 0U;
     vlSelf->is_halted = 0U;
+    vlSelf->top__DOT__cpu__DOT__ALUSRC = 1U;
     vlSelf->top__DOT__cpu__DOT__alu_result = 0U;
     vlSelf->top__DOT__cpu__DOT__bcond = 0U;
     vlSelf->top__DOT__cpu__DOT__add_sum = 0U;
@@ -335,9 +336,6 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                                   & vlSelf->top__DOT__cpu__DOT__instruction)))
                                                          ? 4U
                                                          : 0U))))))))))));
-    vlSelf->top__DOT__cpu__DOT__rs1_dout = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
-        [(0x1fU & (vlSelf->top__DOT__cpu__DOT__instruction 
-                   >> 0xfU))];
     vlSelf->is_halted = 0U;
     vlSelf->is_halted = ((0x73U == (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction)) 
                          & (0xaU == vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
@@ -354,6 +352,15 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__cpu__DOT__rs2_dout = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [(0x1fU & (vlSelf->top__DOT__cpu__DOT__instruction 
                    >> 0x14U))];
+    vlSelf->top__DOT__cpu__DOT__ALUSRC = ((0x17U == 
+                                           (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction))
+                                           ? 0U : (
+                                                   (0x37U 
+                                                    == 
+                                                    (0x7fU 
+                                                     & vlSelf->top__DOT__cpu__DOT__instruction))
+                                                    ? 2U
+                                                    : 1U));
     vlSelf->top__DOT__cpu__DOT__imm_gen_out = ((0x13U 
                                                 == 
                                                 (0x7fU 
@@ -448,7 +455,30 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                                  | (0x7feU 
                                                                     & (vlSelf->top__DOT__cpu__DOT__instruction 
                                                                        >> 0x14U))))))
-                                                        : vlSelf->top__DOT__cpu__DOT__instruction))))));
+                                                        : 
+                                                       ((0x37U 
+                                                         == 
+                                                         (0x7fU 
+                                                          & vlSelf->top__DOT__cpu__DOT__instruction))
+                                                         ? 
+                                                        (0xfffff000U 
+                                                         & vlSelf->top__DOT__cpu__DOT__instruction)
+                                                         : 
+                                                        ((0x17U 
+                                                          == 
+                                                          (0x7fU 
+                                                           & vlSelf->top__DOT__cpu__DOT__instruction))
+                                                          ? 
+                                                         (0xfffff000U 
+                                                          & vlSelf->top__DOT__cpu__DOT__instruction)
+                                                          : vlSelf->top__DOT__cpu__DOT__instruction))))))));
+    vlSelf->top__DOT__cpu__DOT__twoDigitMux_result 
+        = ((0U == (IData)(vlSelf->top__DOT__cpu__DOT__ALUSRC))
+            ? vlSelf->top__DOT__cpu__DOT__current_pc
+            : ((1U == (IData)(vlSelf->top__DOT__cpu__DOT__ALUSRC))
+                ? vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
+               [(0x1fU & (vlSelf->top__DOT__cpu__DOT__instruction 
+                          >> 0xfU))] : 0U));
     vlSelf->top__DOT__cpu__DOT__add_sum = (vlSelf->top__DOT__cpu__DOT__current_pc 
                                            + vlSelf->top__DOT__cpu__DOT__imm_gen_out);
     vlSelf->top__DOT__cpu__DOT__alu_in_2 = ((IData)(vlSelf->top__DOT__cpu__DOT__alu_src)
@@ -500,7 +530,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         'act' region trigger index 0 is active: @(posedge clk)\n");
     }
     if ((2ULL & vlSelf->__VactTriggered.word(0U))) {
-        VL_DBG_MSGF("         'act' region trigger index 1 is active: @([changed] top.cpu.alu_in_2 or [changed] top.cpu.alu_op or [changed] top.cpu.rs1_dout)\n");
+        VL_DBG_MSGF("         'act' region trigger index 1 is active: @([changed] top.cpu.alu_in_2 or [changed] top.cpu.alu_op or [changed] top.cpu.twoDigitMux_result)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -518,7 +548,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__nba(Vtop___024root* vlSelf) {
         VL_DBG_MSGF("         'nba' region trigger index 0 is active: @(posedge clk)\n");
     }
     if ((2ULL & vlSelf->__VnbaTriggered.word(0U))) {
-        VL_DBG_MSGF("         'nba' region trigger index 1 is active: @([changed] top.cpu.alu_in_2 or [changed] top.cpu.alu_op or [changed] top.cpu.rs1_dout)\n");
+        VL_DBG_MSGF("         'nba' region trigger index 1 is active: @([changed] top.cpu.alu_in_2 or [changed] top.cpu.alu_op or [changed] top.cpu.twoDigitMux_result)\n");
     }
 }
 #endif  // VL_DEBUG
@@ -539,11 +569,12 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__cpu__DOT__imm_gen_out = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__current_pc = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__alu_result = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__cpu__DOT__rs1_dout = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__rs2_dout = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__alu_in_2 = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__add_sum = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__add_four_pc = VL_RAND_RESET_I(32);
+    vlSelf->top__DOT__cpu__DOT__ALUSRC = VL_RAND_RESET_I(2);
+    vlSelf->top__DOT__cpu__DOT__twoDigitMux_result = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__is_jal = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__cpu__DOT__is_jalr = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__cpu__DOT__branch = VL_RAND_RESET_I(1);
@@ -569,7 +600,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_in_2__0 = VL_RAND_RESET_I(32);
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0 = VL_RAND_RESET_I(4);
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__rs1_dout__0 = VL_RAND_RESET_I(32);
+    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__twoDigitMux_result__0 = VL_RAND_RESET_I(32);
     vlSelf->__VactDidInit = 0;
     for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
         vlSelf->__Vm_traceActivity[__Vi0] = 0;

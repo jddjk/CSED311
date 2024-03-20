@@ -30,10 +30,16 @@ module cpu(input reset,                     // positive reset signal
   wire [31:0] mux5_out;
   wire [31:0] alu_result_aligned;
   wire [31:0] x17_val;
+  
+  
+  
+  wire [31:0] luiVar;
+  wire [1:0] ALUSRC;
+  wire [31:0] twoDigitMux_result;
 
 
 
-
+  assign luiVar = 32'b0;
   assign alu_result_aligned = alu_result & 32'hFFFFFFFE; // to make the result of ALU aligned to 4 bytes
   wire is_jal;
   wire is_jalr;
@@ -99,7 +105,8 @@ module cpu(input reset,                     // positive reset signal
     .write_enable(write_enable),  // output
     .pc_to_reg(pc_to_reg),     // output
     .is_ecall(is_halted),       // output (ecall inst)
-    .x17_val(x17_val)
+    .x17_val(x17_val),
+    .ALUSRC(ALUSRC)
   );
 
   // ---------- Immediate Generator ----------
@@ -119,7 +126,7 @@ module cpu(input reset,                     // positive reset signal
   // ---------- ALU ----------
   alu alu (
     .alu_op(alu_op),      // input
-    .alu_in_1(rs1_dout),    // input  
+    .alu_in_1(twoDigitMux_result),    // input  
     .alu_in_2(alu_in_2),    // input
     .alu_result(alu_result),  // output
     .alu_bcond(bcond)    // output
@@ -150,6 +157,14 @@ add_alu_four add_alu_four(
 );
 
 // ----------    Mux  ----------
+
+twoDigitMux twoDigitMux(
+  .in0(current_pc),
+  .in1(rs1_dout),
+  .in2(luiVar),
+  .sel(ALUSRC),
+  .out(twoDigitMux_result)
+);
 
 mux mux1(
   .in0(add_four_pc),

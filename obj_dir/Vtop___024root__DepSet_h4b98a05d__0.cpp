@@ -21,15 +21,15 @@ void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf) {
                                        != vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_in_2__0) 
                                       | ((IData)(vlSelf->top__DOT__cpu__DOT__alu_op) 
                                          != (IData)(vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0))) 
-                                     | (vlSelf->top__DOT__cpu__DOT__rs1_dout 
-                                        != vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__rs1_dout__0)));
+                                     | (vlSelf->top__DOT__cpu__DOT__twoDigitMux_result 
+                                        != vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__twoDigitMux_result__0)));
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = vlSelf->clk;
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_in_2__0 
         = vlSelf->top__DOT__cpu__DOT__alu_in_2;
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0 
         = vlSelf->top__DOT__cpu__DOT__alu_op;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__rs1_dout__0 
-        = vlSelf->top__DOT__cpu__DOT__rs1_dout;
+    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__twoDigitMux_result__0 
+        = vlSelf->top__DOT__cpu__DOT__twoDigitMux_result;
     if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->__VactDidInit))))) {
         vlSelf->__VactDidInit = 1U;
         vlSelf->__VactTriggered.set(1U, 1U);

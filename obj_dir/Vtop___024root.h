@@ -18,6 +18,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
     VL_IN8(reset,0,0);
     VL_OUT8(is_halted,0,0);
     CData/*3:0*/ top__DOT__cpu__DOT__alu_op;
+    CData/*1:0*/ top__DOT__cpu__DOT__ALUSRC;
     CData/*0:0*/ top__DOT__cpu__DOT__is_jal;
     CData/*0:0*/ top__DOT__cpu__DOT__is_jalr;
     CData/*0:0*/ top__DOT__cpu__DOT__branch;
@@ -37,16 +38,16 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
     IData/*31:0*/ top__DOT__cpu__DOT__imm_gen_out;
     IData/*31:0*/ top__DOT__cpu__DOT__current_pc;
     IData/*31:0*/ top__DOT__cpu__DOT__alu_result;
-    IData/*31:0*/ top__DOT__cpu__DOT__rs1_dout;
     IData/*31:0*/ top__DOT__cpu__DOT__rs2_dout;
     IData/*31:0*/ top__DOT__cpu__DOT__alu_in_2;
     IData/*31:0*/ top__DOT__cpu__DOT__add_sum;
     IData/*31:0*/ top__DOT__cpu__DOT__add_four_pc;
+    IData/*31:0*/ top__DOT__cpu__DOT__twoDigitMux_result;
     IData/*31:0*/ top__DOT__cpu__DOT__imem__DOT__i;
     IData/*31:0*/ top__DOT__cpu__DOT__reg_file__DOT__i;
     IData/*31:0*/ top__DOT__cpu__DOT__dmem__DOT__i;
     IData/*31:0*/ __Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_in_2__0;
-    IData/*31:0*/ __Vtrigprevexpr___TOP__top__DOT__cpu__DOT__rs1_dout__0;
+    IData/*31:0*/ __Vtrigprevexpr___TOP__top__DOT__cpu__DOT__twoDigitMux_result__0;
     IData/*31:0*/ __VactIterCount;
     VL_OUT(print_reg[32],31,0);
     VlUnpacked<IData/*31:0*/, 1024> top__DOT__cpu__DOT__imem__DOT__mem;
