@@ -17,11 +17,11 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
     VL_IN8(clk,0,0);
     VL_IN8(reset,0,0);
     VL_OUT8(is_halted,0,0);
-    CData/*2:0*/ top__DOT__cpu__DOT__alu_op;
+    CData/*3:0*/ top__DOT__cpu__DOT__alu_op;
     CData/*0:0*/ top__DOT__cpu__DOT__bcond;
     CData/*0:0*/ __VstlFirstIteration;
     CData/*0:0*/ __Vtrigprevexpr___TOP__clk__0;
-    CData/*2:0*/ __Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0;
+    CData/*3:0*/ __Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0;
     CData/*0:0*/ __VactDidInit;
     CData/*0:0*/ __VactContinue;
     IData/*31:0*/ top__DOT__cpu__DOT__instruction;

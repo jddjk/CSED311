@@ -14,7 +14,7 @@ module cpu(input reset,                     // positive reset signal
            output [31:0] print_reg [0:31]); // TO PRINT REGISTER VALUES IN TESTBENCH (YOU SHOULD NOT USE THIS)
   /***** Wire declarations *****/
   wire [31:0] instruction;
-  wire [2:0] alu_op;
+  wire [3:0] alu_op;
   wire [31:0] imm_gen_out;
   wire [31:0] current_pc;
   wire [31:0] write_data;

@@ -31,7 +31,7 @@ module register_file(input	reset,
   // syquential logic
   //write data 할때 load 사용하나
   always @(posedge clk) begin
-    if(write_enable==1)begin
+    if(write_enable==1 && rd!=0)begin
     rf[rd] <= rd_din;
     end
 

@@ -96,15 +96,10 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 }
 #endif  // VL_DEBUG
 
-extern const VlUnpacked<CData/*2:0*/, 1024> Vtop__ConstPool__TABLE_h0a89b2c4_0;
-
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___stl_sequent__TOP__0\n"); );
-    // Init
-    SData/*9:0*/ __Vtableidx1;
-    __Vtableidx1 = 0;
     // Body
     vlSelf->top__DOT__cpu__DOT__add_four_pc = ((IData)(4U) 
                                                + vlSelf->top__DOT__cpu__DOT__current_pc);
@@ -176,14 +171,135 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         [(0x3ffU & (vlSelf->top__DOT__cpu__DOT__current_pc 
                     >> 2U))];
     vlSelf->is_halted = (0x73U == (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction));
+    vlSelf->top__DOT__cpu__DOT__alu_op = ((0x67U == 
+                                           (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction))
+                                           ? 0xfU : 
+                                          ((IData)(
+                                                   (0x63U 
+                                                    == 
+                                                    (0x707fU 
+                                                     & vlSelf->top__DOT__cpu__DOT__instruction)))
+                                            ? 0xeU : 
+                                           ((IData)(
+                                                    (0x1063U 
+                                                     == 
+                                                     (0x707fU 
+                                                      & vlSelf->top__DOT__cpu__DOT__instruction)))
+                                             ? 0xdU
+                                             : ((IData)(
+                                                        (0x4063U 
+                                                         == 
+                                                         (0x707fU 
+                                                          & vlSelf->top__DOT__cpu__DOT__instruction)))
+                                                 ? 0xcU
+                                                 : 
+                                                ((IData)(
+                                                         (0x5063U 
+                                                          == 
+                                                          (0x707fU 
+                                                           & vlSelf->top__DOT__cpu__DOT__instruction)))
+                                                  ? 0xbU
+                                                  : 
+                                                 (((((IData)(
+                                                             (0x2003U 
+                                                              == 
+                                                              (0x707fU 
+                                                               & vlSelf->top__DOT__cpu__DOT__instruction))) 
+                                                     | (IData)(
+                                                               (0x2023U 
+                                                                == 
+                                                                (0x707fU 
+                                                                 & vlSelf->top__DOT__cpu__DOT__instruction)))) 
+                                                    | ((IData)(
+                                                               (0x13U 
+                                                                == 
+                                                                (0x707fU 
+                                                                 & vlSelf->top__DOT__cpu__DOT__instruction))) 
+                                                       & (0x20U 
+                                                          != 
+                                                          (vlSelf->top__DOT__cpu__DOT__instruction 
+                                                           >> 0x19U)))) 
+                                                   | ((IData)(
+                                                              (0x33U 
+                                                               == 
+                                                               (0x707fU 
+                                                                & vlSelf->top__DOT__cpu__DOT__instruction))) 
+                                                      & (0x20U 
+                                                         != 
+                                                         (vlSelf->top__DOT__cpu__DOT__instruction 
+                                                          >> 0x19U))))
+                                                   ? 0xaU
+                                                   : 
+                                                  (((IData)(
+                                                            (0x4013U 
+                                                             == 
+                                                             (0x707fU 
+                                                              & vlSelf->top__DOT__cpu__DOT__instruction))) 
+                                                    | (IData)(
+                                                              (0x4033U 
+                                                               == 
+                                                               (0x707fU 
+                                                                & vlSelf->top__DOT__cpu__DOT__instruction))))
+                                                    ? 9U
+                                                    : 
+                                                   (((IData)(
+                                                             (0x6013U 
+                                                              == 
+                                                              (0x707fU 
+                                                               & vlSelf->top__DOT__cpu__DOT__instruction))) 
+                                                     | (IData)(
+                                                               (0x6033U 
+                                                                == 
+                                                                (0x707fU 
+                                                                 & vlSelf->top__DOT__cpu__DOT__instruction))))
+                                                     ? 8U
+                                                     : 
+                                                    (((IData)(
+                                                              (0x7013U 
+                                                               == 
+                                                               (0x707fU 
+                                                                & vlSelf->top__DOT__cpu__DOT__instruction))) 
+                                                      | (IData)(
+                                                                (0x7033U 
+                                                                 == 
+                                                                 (0x707fU 
+                                                                  & vlSelf->top__DOT__cpu__DOT__instruction))))
+                                                      ? 7U
+                                                      : 
+                                                     (((IData)(
+                                                               (0x1013U 
+                                                                == 
+                                                                (0x707fU 
+                                                                 & vlSelf->top__DOT__cpu__DOT__instruction))) 
+                                                       | (IData)(
+                                                                 (0x1033U 
+                                                                  == 
+                                                                  (0x707fU 
+                                                                   & vlSelf->top__DOT__cpu__DOT__instruction))))
+                                                       ? 6U
+                                                       : 
+                                                      (((IData)(
+                                                                (0x5013U 
+                                                                 == 
+                                                                 (0x707fU 
+                                                                  & vlSelf->top__DOT__cpu__DOT__instruction))) 
+                                                        | (IData)(
+                                                                  (0x5033U 
+                                                                   == 
+                                                                   (0x707fU 
+                                                                    & vlSelf->top__DOT__cpu__DOT__instruction))))
+                                                        ? 5U
+                                                        : 
+                                                       ((IData)(
+                                                                (0x40000033U 
+                                                                 == 
+                                                                 (0xfe00707fU 
+                                                                  & vlSelf->top__DOT__cpu__DOT__instruction)))
+                                                         ? 4U
+                                                         : 0U))))))))))));
     vlSelf->top__DOT__cpu__DOT__rs1_dout = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [(0x1fU & (vlSelf->top__DOT__cpu__DOT__instruction 
                    >> 0xfU))];
-    __Vtableidx1 = ((0x3f8U & (vlSelf->top__DOT__cpu__DOT__instruction 
-                               << 3U)) | (7U & (vlSelf->top__DOT__cpu__DOT__instruction 
-                                                >> 0xcU)));
-    vlSelf->top__DOT__cpu__DOT__alu_op = Vtop__ConstPool__TABLE_h0a89b2c4_0
-        [__Vtableidx1];
     vlSelf->top__DOT__cpu__DOT__rs2_dout = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [(0x1fU & (vlSelf->top__DOT__cpu__DOT__instruction 
                    >> 0x14U))];
@@ -378,7 +494,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
         vlSelf->print_reg[__Vi0] = VL_RAND_RESET_I(32);
     }
     vlSelf->top__DOT__cpu__DOT__instruction = VL_RAND_RESET_I(32);
-    vlSelf->top__DOT__cpu__DOT__alu_op = VL_RAND_RESET_I(3);
+    vlSelf->top__DOT__cpu__DOT__alu_op = VL_RAND_RESET_I(4);
     vlSelf->top__DOT__cpu__DOT__imm_gen_out = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__current_pc = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__alu_result = VL_RAND_RESET_I(32);
@@ -402,7 +518,7 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     }
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = VL_RAND_RESET_I(1);
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_in_2__0 = VL_RAND_RESET_I(32);
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0 = VL_RAND_RESET_I(3);
+    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0 = VL_RAND_RESET_I(4);
     vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__rs1_dout__0 = VL_RAND_RESET_I(32);
     vlSelf->__VactDidInit = 0;
     for (int __Vi0 = 0; __Vi0 < 4; ++__Vi0) {
