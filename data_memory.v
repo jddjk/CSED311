@@ -22,8 +22,9 @@ module data_memory #(parameter MEM_DEPTH = 16384) (input reset,
   // Asynchrnously read data from the memory
   // Combinational logic
   // (use dmem_addr to access memory)
-  assign dout = (mem_read) ? mem[dmem_addr] : 32'b0;
-
+  always@(mem_read, addr) begin // addr? dmem_addr?
+    assign dout = (mem_read) ? mem[dmem_addr] : 32'b0;
+  end
 
  // Synchronously write data to the memory
  // Sequential logic
