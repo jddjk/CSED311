@@ -8,17 +8,17 @@ module alu_control_unit(opcode, func3, func7,alu_op);
     output reg [2:0] alu_op;
 
 //combinational logic to determine the alu operation using part_of_inst(i.e. opcode, func3, func7)
-always(*)begin
+always @(*)begin
 //have to implement alu accordingly to this operation constants
 
 //may fully implemented
-    if(func3==`FUNCT3_BEQ && opcode==`branch) begin
+    if(func3==`FUNCT3_BEQ && opcode==`BRANCH) begin
         alu_op= `FUNCT3_BEQ;
-    end else if (func3==`FUNCT3_BNE && opcode==`branch) begin
+    end else if (func3==`FUNCT3_BNE && opcode==`BRANCH) begin
         alu_op= `FUNCT3_BNE;
-    end else if (func3==`FUNCT3_BLT && opcode==`branch) begin
+    end else if (func3==`FUNCT3_BLT && opcode==`BRANCH) begin
         alu_op= `FUNCT3_BLT;
-    end else if (func3==`FUNCT3_BGE && opcode==`branch) begin
+    end else if (func3==`FUNCT3_BGE && opcode==`BRANCH) begin
         alu_op= `FUNCT3_BGE;
 
 //this part is not fully implemented
@@ -50,11 +50,11 @@ always(*)begin
     end else if (func3==`FUNCT3_SRL && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
         alu_op= `FUNCT3_SRL;
 
-//this part is not fully implemented
+//have to change output
     end else if (func7==`FUNCT7_SUB && (opcode==`ARITHMETIC || opcode==`ARITHMETIC_IMM)) begin
-        alu_op= `FUNCT7_SUB;
-    end esle begin
-        alu_op= `FUNCT7_OTHERS;
+        alu_op= `FUNCT3_SUB;
+    end else begin
+        alu_op= `FUNCT3_ADD;
     end
 
 

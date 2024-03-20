@@ -5,8 +5,8 @@ module register_file(input	reset,
                      input [4:0] rd,           // destination register
                      input [31:0] rd_din,      // input data for rd
                      input write_enable,          // RegWrite signal
-                     output [31:0] rs1_dout,   // output of rs 1
-                     output [31:0] rs2_dout,   // output of rs 2
+                     output reg [31:0] rs1_dout,   // output of rs 1
+                     output reg [31:0] rs2_dout,   // output of rs 2
                      output [31:0] print_reg [0:31]);
   integer i;
   // Register file
@@ -32,7 +32,7 @@ module register_file(input	reset,
   //write data 할때 load 사용하나
   always @(posedge clk) begin
     if(write_enable==1)begin
-    rf[rd] = rd_din;
+    rf[rd] <= rd_din;
     end
 
   end

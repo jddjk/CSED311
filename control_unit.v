@@ -1,7 +1,7 @@
 `include "opcodes.v"
 
 
-module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_write, alu_src, write_enable, pc_to_reg, is_halted);
+module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_write, alu_src, write_enable, pc_to_reg, is_ecall);
     input [6:0] opcode;
     output reg is_jal;
     output reg is_jalr;
@@ -12,7 +12,7 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
     output reg alu_src;
     output reg write_enable;
     output reg pc_to_reg;
-    output reg is_halted;
+    output reg is_ecall;
 
     //combinational logic which makes control signals using part_of_inst(i.e. opcode)
     always @(*) begin
@@ -46,8 +46,8 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
         if(opcode == `JAL || opcode==`JALR) pc_to_reg = 1;
         else pc_to_reg = 0;
 
-        if(opcode == `ECALL) is_halted = 1;
-        else is_halted = 0;
+        if(opcode == `ECALL) is_ecall = 1;
+        else is_ecall = 0;
     
     end
 
