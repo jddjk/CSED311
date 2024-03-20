@@ -2,6 +2,7 @@
 
 module control_unit(
     input [6:0] instruction,
+    input [31:0] is_x17_ten,
     output reg write_enable,
     output reg alu_src,
     output reg mem_read,
@@ -11,42 +12,76 @@ module control_unit(
     output reg is_jal,
     output reg is_jalr,
     output reg branch,
-    output reg is_halted
+    output reg is_halted,
+    output reg ishalted
 );
     wire [6:0]opcode = instruction[6:0];
+    initial begin
+        write_enable = 0;
+        alu_src = 0;
+        mem_read = 0;
+        mem_write = 0;
+        mem_to_reg = 0;
+        pc_to_reg = 0;
+        is_jal = 0;
+        is_jalr = 0;
+        branch = 0;
+        is_halted = 0;
+        ishalted = 0;
+    end
+
     always @(*) begin
-
-        if(opcode == `JAL) is_jal = 1;
-        else is_jal = 0;
-        
-        if(opcode == `JALR) is_jalr = 1;
-        else is_jalr = 0;
-        
-        if(opcode == `BRANCH) branch = 1;
-        else branch = 0;
-
-        if(opcode == `LOAD) mem_read = 1;
-        else mem_read = 0;
-
-        if(opcode == `LOAD) mem_to_reg = 1;
-        else mem_to_reg = 0;
-
-        if(opcode == `STORE) mem_write = 1;
-        else mem_write = 0;
-        
-        if(opcode==`ARITHMETIC_IMM || opcode==`LOAD || opcode==`STORE) alu_src = 1;
-        else alu_src = 0;
-
-//RegWrite in the lecture note equals to write_enable
-//store 하거나 branch (not) taken 이면 RegWrite was 0. why??
-        if(opcode != `STORE && opcode != `BRANCH) write_enable = 1;
-        else write_enable = 0;
-
-        if(opcode == `JAL || opcode==`JALR) pc_to_reg = 1;
-        else pc_to_reg = 0;
-
-        if(opcode == `ECALL) is_halted = 1;
-        else is_halted = 0;
-    
+        write_enable = 0;
+        alu_src = 0;
+        mem_read = 0;
+        mem_write = 0;
+        mem_to_reg = 0;
+        pc_to_reg = 0;
+        is_jal = 0;
+        is_jalr = 0;
+        branch = 0;
+        is_halted = 0;
+        ishalted = 0;
+        case(opcode)
+            `ARITHMETIC: begin
+                write_enable = 1;
+            end
+            `ARITHMETIC_IMM: begin
+                write_enable = 1;
+                alu_src = 1;
+            end
+            `LOAD: begin
+                write_enable = 1;
+                alu_src = 1;
+                mem_read = 1;
+                mem_to_reg = 1;
+            end
+            `STORE: begin
+                alu_src = 1;
+                mem_write = 1;
+            end
+            `BRANCH: begin
+                branch = 1;
+            end
+            `JAL: begin
+                write_enable = 1;
+                pc_to_reg = 1;
+                is_jal = 1;
+            end
+            `JALR: begin
+                write_enable = 1;
+                alu_src = 1;
+                pc_to_reg = 1;
+                is_jalr = 1;
+            end
+            `ECALL: begin
+                if (is_x17_ten == 10) begin
+                    is_halted = 1;
+                    ishalted = 1;
+                end
+            end
+            default: begin
+            end
+        endcase
     end
 endmodule

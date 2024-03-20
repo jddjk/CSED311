@@ -28,7 +28,9 @@ module cpu(input reset,                     // positive reset signal
   wire [31:0] rs1_dout;
   wire [31:0] rs2_dout;
   wire [31:0] mux5_out;
-  wire [2:0] alu_op;
+  wire [31:0] is_x17_ten;
+  wire [31:0] alu_result_aligned;
+  wire [3:0] alu_op;
   wire RegWrite;
   wire bcond;
   wire branch;
@@ -41,7 +43,9 @@ module cpu(input reset,                     // positive reset signal
   wire bcond_and_branch;
   wire JAL_or_bab;
   wire PCtoReg;
+  wire ishalted;
 
+  assign alu_result_aligned = alu_result & 32'hFFFFFFFE; // to make the result of ALU aligned to 4 bytes
   assign bcond_and_branch = bcond & branch;
   assign JAL_or_bab = JAL | bcond_and_branch; //PCSrc1
   /***** Register declarations *****/
@@ -52,6 +56,7 @@ module cpu(input reset,                     // positive reset signal
     .reset(reset),       // input (Use reset to initialize PC. Initial value must be 0)
     .clk(clk),         // input
     .next_pc(mux2_result),     // input
+    .ishalted(ishalted),    // input
     .current_pc(current_pc)   // output
   );
   
@@ -71,7 +76,8 @@ module cpu(input reset,                     // positive reset signal
     .rs2 (imem_dout[24:20]),          // input
     .rd (imem_dout[11:7]),           // input
     .rd_din (write_data),          // input
-    .write_enable (RegWrite), // input          
+    .write_enable (RegWrite), // input
+    .is_x17_ten(is_x17_ten),  // output          
     .rs1_dout (rs1_dout),     // output
     .rs2_dout (rs2_dout),     // output
     .print_reg (print_reg)  //DO NOT TOUCH THIS
@@ -81,6 +87,7 @@ module cpu(input reset,                     // positive reset signal
   // ---------- Control Unit ----------
   control_unit ctrl_unit (
     .instruction(imem_dout[6:0]),  // input
+    .is_x17_ten(is_x17_ten),  // input
     .is_jal(JAL),        // output
     .is_jalr(JALR),       // output
     .branch(branch),        // output
@@ -90,7 +97,8 @@ module cpu(input reset,                     // positive reset signal
     .alu_src(ALUSrc),       // output
     .write_enable(RegWrite),  // output
     .pc_to_reg(PCtoReg),     // output
-    .is_halted(is_halted)       // output (ecall inst)
+    .is_halted(is_halted),       // output (ecall inst)
+    .ishalted(ishalted)       // output (ecall inst)
   );
 
   // ---------- Immediate Generator ----------
@@ -103,7 +111,7 @@ module cpu(input reset,                     // positive reset signal
   alu_control_unit alu_ctrl_unit (
     .opcode(imem_dout[6:0]),  // input
     .funct3(imem_dout[14:12]),  // input
-    .funct7(imem_dout[31:25]),  // input
+    .funct7(imem_dout[31:25]),  // input 
     .alu_op(alu_op)         // output
   );
 
@@ -149,7 +157,7 @@ module cpu(input reset,                     // positive reset signal
   mux mux2(
     .sel(JALR),
     .in0(mux1_result),
-    .in1(alu_result),
+    .in1(alu_result_aligned),
     .out(mux2_result)
   );
   mux mux3(

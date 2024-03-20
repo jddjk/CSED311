@@ -4,6 +4,7 @@ module register_file(input	reset,
                      input [4:0] rs2,          // source register 2
                      input [4:0] rd,           // destination register
                      input [31:0] rd_din,      // input data for rd
+                     output [31:0] is_x17_ten,  // input data for x17
                      input write_enable,          // RegWrite signal
                      output reg [31:0] rs1_dout,   // output of rs 1
                      output reg [31:0] rs2_dout,   // output of rs 2
@@ -17,13 +18,12 @@ module register_file(input	reset,
   // TODO
   // Asynchronously read register file
   // Synchronously write data to the register file
-  always@(rs1, rs2) begin // Think about the condition
-    rs1_dout <= rf[rs1];
-    rs2_dout <= rf[rs2];
-  end
+  assign is_x17_ten = rf[17];
+  assign rs1_dout = rf[rs1];
+  assign rs2_dout = rf[rs2];
 
   always @(posedge clk) begin
-    if (write_enable) begin
+    if (rd !=5'b00000 && write_enable) begin
       rf[rd] <= rd_din;
     end
   end
