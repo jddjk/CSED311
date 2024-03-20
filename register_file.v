@@ -17,9 +17,10 @@ module register_file(input	reset,
   // TODO
   // Asynchronously read register file
   // Synchronously write data to the register file
-  assign rs1_dout = rf[rs1];
-  assign rs2_dout = rf[rs2];
-  assign print_reg = rf;
+  always@(rs1, rs2) begin // Think about the condition
+    assign rs1_dout = rf[rs1];
+    assign rs2_dout = rf[rs2];
+  end
 
   always @(posedge clk) begin
     if (write_enable) begin
