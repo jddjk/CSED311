@@ -6,8 +6,8 @@ module immediate_generator(
     always@(*) begin
         case(opcode)
             // U-type
-            `LUI: ex_immediate = {instruction[31], instruction[30:20], instruction[19:12], 12'b0};
-            `AUIPC: ex_immediate = {instruction[31], instruction[30:20], instruction[19:12], 12'b0};
+            //`LUI: ex_immediate = {instruction[31], instruction[30:20], instruction[19:12], 12'b0};
+            //`AUIPC: ex_immediate = {instruction[31], instruction[30:20], instruction[19:12], 12'b0};
             // I-type
             `ARITHMETIC_IMM: ex_immediate = {{21{instruction[31]}}, instruction[30:25], instruction[24:21], instruction[20]};
             // LW(I-type)
