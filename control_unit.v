@@ -1,7 +1,7 @@
 `include "opcodes.v"
 
 
-module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_write, alu_src, write_enable, pc_to_reg, is_ecall);
+module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_write, alu_src, write_enable, pc_to_reg, is_ecall, x17_val);
     input [6:0] opcode;
     output reg is_jal;
     output reg is_jalr;
@@ -13,9 +13,34 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
     output reg write_enable;
     output reg pc_to_reg;
     output reg is_ecall;
+    input reg [31:0] x17_val;
+
+    initial begin
+        write_enable = 0;
+        alu_src = 0;
+        mem_read = 0;
+        mem_write = 0;
+        mem_to_reg = 0;
+        pc_to_reg = 0;
+        is_jal = 0;
+        is_jalr = 0;
+        branch = 0;
+        is_ecall = 0;
+ 
+    end
 
     //combinational logic which makes control signals using part_of_inst(i.e. opcode)
     always @(*) begin
+        write_enable = 0;
+        alu_src = 0;
+        mem_read = 0;
+        mem_write = 0;
+        mem_to_reg = 0;
+        pc_to_reg = 0;
+        is_jal = 0;
+        is_jalr = 0;
+        branch = 0;
+        is_ecall = 0;
 
         if(opcode == `JAL) is_jal = 1;
         else is_jal = 0;
@@ -46,7 +71,7 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
         if(opcode == `JAL || opcode==`JALR) pc_to_reg = 1;
         else pc_to_reg = 0;
 
-        if(opcode == `ECALL) is_ecall = 1;
+        if(opcode == `ECALL && x17_val ==10) is_ecall = 1;
         else is_ecall = 0;
     
     end

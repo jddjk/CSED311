@@ -37,6 +37,16 @@ VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial__TOP\n"); );
     // Body
+    vlSelf->top__DOT__cpu__DOT__write_enable = 0U;
+    vlSelf->top__DOT__cpu__DOT__alu_src = 0U;
+    vlSelf->top__DOT__cpu__DOT__mem_read = 0U;
+    vlSelf->top__DOT__cpu__DOT__mem_write = 0U;
+    vlSelf->top__DOT__cpu__DOT__mem_to_reg = 0U;
+    vlSelf->top__DOT__cpu__DOT__pc_to_reg = 0U;
+    vlSelf->top__DOT__cpu__DOT__is_jal = 0U;
+    vlSelf->top__DOT__cpu__DOT__is_jalr = 0U;
+    vlSelf->top__DOT__cpu__DOT__branch = 0U;
+    vlSelf->is_halted = 0U;
     vlSelf->top__DOT__cpu__DOT__alu_result = 0U;
     vlSelf->top__DOT__cpu__DOT__bcond = 0U;
     vlSelf->top__DOT__cpu__DOT__add_sum = 0U;
@@ -170,7 +180,35 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__cpu__DOT__instruction = vlSelf->top__DOT__cpu__DOT__imem__DOT__mem
         [(0x3ffU & (vlSelf->top__DOT__cpu__DOT__current_pc 
                     >> 2U))];
-    vlSelf->is_halted = (0x73U == (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction));
+    vlSelf->top__DOT__cpu__DOT__mem_to_reg = (3U == 
+                                              (0x7fU 
+                                               & vlSelf->top__DOT__cpu__DOT__instruction));
+    vlSelf->top__DOT__cpu__DOT__is_jalr = (0x67U == 
+                                           (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction));
+    vlSelf->top__DOT__cpu__DOT__is_jal = (0x6fU == 
+                                          (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction));
+    vlSelf->top__DOT__cpu__DOT__mem_write = (0x23U 
+                                             == (0x7fU 
+                                                 & vlSelf->top__DOT__cpu__DOT__instruction));
+    vlSelf->top__DOT__cpu__DOT__branch = (0x63U == 
+                                          (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction));
+    vlSelf->top__DOT__cpu__DOT__mem_read = (3U == (0x7fU 
+                                                   & vlSelf->top__DOT__cpu__DOT__instruction));
+    vlSelf->top__DOT__cpu__DOT__write_enable = ((0x23U 
+                                                 != 
+                                                 (0x7fU 
+                                                  & vlSelf->top__DOT__cpu__DOT__instruction)) 
+                                                & (0x63U 
+                                                   != 
+                                                   (0x7fU 
+                                                    & vlSelf->top__DOT__cpu__DOT__instruction)));
+    vlSelf->top__DOT__cpu__DOT__pc_to_reg = ((0x6fU 
+                                              == (0x7fU 
+                                                  & vlSelf->top__DOT__cpu__DOT__instruction)) 
+                                             | (0x67U 
+                                                == 
+                                                (0x7fU 
+                                                 & vlSelf->top__DOT__cpu__DOT__instruction)));
     vlSelf->top__DOT__cpu__DOT__alu_op = ((0x67U == 
                                            (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction))
                                            ? 0xfU : 
@@ -300,6 +338,19 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__cpu__DOT__rs1_dout = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [(0x1fU & (vlSelf->top__DOT__cpu__DOT__instruction 
                    >> 0xfU))];
+    vlSelf->is_halted = 0U;
+    vlSelf->is_halted = ((0x73U == (0x7fU & vlSelf->top__DOT__cpu__DOT__instruction)) 
+                         & (0xaU == vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
+                            [0x11U]));
+    vlSelf->top__DOT__cpu__DOT__alu_src = (((0x13U 
+                                             == (0x7fU 
+                                                 & vlSelf->top__DOT__cpu__DOT__instruction)) 
+                                            | (3U == 
+                                               (0x7fU 
+                                                & vlSelf->top__DOT__cpu__DOT__instruction))) 
+                                           | (0x23U 
+                                              == (0x7fU 
+                                                  & vlSelf->top__DOT__cpu__DOT__instruction)));
     vlSelf->top__DOT__cpu__DOT__rs2_dout = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [(0x1fU & (vlSelf->top__DOT__cpu__DOT__instruction 
                    >> 0x14U))];
@@ -400,17 +451,7 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                         : vlSelf->top__DOT__cpu__DOT__instruction))))));
     vlSelf->top__DOT__cpu__DOT__add_sum = (vlSelf->top__DOT__cpu__DOT__current_pc 
                                            + vlSelf->top__DOT__cpu__DOT__imm_gen_out);
-    vlSelf->top__DOT__cpu__DOT__alu_in_2 = ((((0x13U 
-                                               == (0x7fU 
-                                                   & vlSelf->top__DOT__cpu__DOT__instruction)) 
-                                              | (3U 
-                                                 == 
-                                                 (0x7fU 
-                                                  & vlSelf->top__DOT__cpu__DOT__instruction))) 
-                                             | (0x23U 
-                                                == 
-                                                (0x7fU 
-                                                 & vlSelf->top__DOT__cpu__DOT__instruction)))
+    vlSelf->top__DOT__cpu__DOT__alu_in_2 = ((IData)(vlSelf->top__DOT__cpu__DOT__alu_src)
                                              ? vlSelf->top__DOT__cpu__DOT__imm_gen_out
                                              : vlSelf->top__DOT__cpu__DOT__rs2_dout);
 }
@@ -503,6 +544,15 @@ VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__cpu__DOT__alu_in_2 = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__add_sum = VL_RAND_RESET_I(32);
     vlSelf->top__DOT__cpu__DOT__add_four_pc = VL_RAND_RESET_I(32);
+    vlSelf->top__DOT__cpu__DOT__is_jal = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__cpu__DOT__is_jalr = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__cpu__DOT__branch = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__cpu__DOT__mem_read = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__cpu__DOT__mem_to_reg = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__cpu__DOT__mem_write = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__cpu__DOT__alu_src = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__cpu__DOT__write_enable = VL_RAND_RESET_I(1);
+    vlSelf->top__DOT__cpu__DOT__pc_to_reg = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__cpu__DOT__bcond = VL_RAND_RESET_I(1);
     vlSelf->top__DOT__cpu__DOT__imem__DOT__i = VL_RAND_RESET_I(32);
     for (int __Vi0 = 0; __Vi0 < 1024; ++__Vi0) {

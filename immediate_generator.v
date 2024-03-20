@@ -35,7 +35,8 @@ module immediate_generator(instruction, imm_gen_out);
 
         end else if(opcode == `JAL) begin  // J-type instruction opcodes
             imm_gen_out = { {11{instruction[31]}}, instruction[31], instruction[19:12], instruction[20], instruction[30:21], 1'b0};  //sign-extend(31, 19-12, 20, 30-21)  UJ-type
-
+        
+        
         end else begin //prevents letch error    
             imm_gen_out = instruction;
         end    

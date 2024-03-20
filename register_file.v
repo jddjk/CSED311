@@ -7,7 +7,8 @@ module register_file(input	reset,
                      input write_enable,          // RegWrite signal
                      output reg [31:0] rs1_dout,   // output of rs 1
                      output reg [31:0] rs2_dout,   // output of rs 2
-                     output [31:0] print_reg [0:31]);
+                     output [31:0] print_reg [0:31],
+                     output [31:0] x17_val);
   integer i;
   // Register file
   reg [31:0] rf[0:31];
@@ -17,7 +18,7 @@ module register_file(input	reset,
   // TODO
   // Asynchronously read register file
   // Synchronously write data to the register file
-
+assign x17_val = rf[17];
   // Asynchronously read register file
   // combinational logic
   // isa 16페이지 rd와 single cycle read register 같나

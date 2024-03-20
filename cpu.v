@@ -28,9 +28,13 @@ module cpu(input reset,                     // positive reset signal
   wire [31:0] add_sum;
   wire [31:0] add_four_pc;
   wire [31:0] mux5_out;
+  wire [31:0] alu_result_aligned;
+  wire [31:0] x17_val;
 
 
 
+
+  assign alu_result_aligned = alu_result & 32'hFFFFFFFE; // to make the result of ALU aligned to 4 bytes
   wire is_jal;
   wire is_jalr;
   wire branch;
@@ -77,7 +81,8 @@ module cpu(input reset,                     // positive reset signal
     .write_enable (write_enable), // input
     .rs1_dout (rs1_dout),     // output
     .rs2_dout (rs2_dout),     // output
-    .print_reg (print_reg)  //DO NOT TOUCH THIS
+    .print_reg (print_reg),  //DO NOT TOUCH THIS
+    .x17_val(x17_val)
   );
 
 
@@ -93,7 +98,8 @@ module cpu(input reset,                     // positive reset signal
     .alu_src(alu_src),       // output
     .write_enable(write_enable),  // output
     .pc_to_reg(pc_to_reg),     // output
-    .is_ecall(is_halted)       // output (ecall inst)
+    .is_ecall(is_halted),       // output (ecall inst)
+    .x17_val(x17_val)
   );
 
   // ---------- Immediate Generator ----------
@@ -154,7 +160,7 @@ mux mux1(
 
 mux mux2(
   .in0(mux1_result),
-  .in1(alu_result),
+  .in1(alu_result_aligned),
   .sel(is_jalr),
   .out(mux2_result)
 );
