@@ -23,24 +23,18 @@ module cpu(input reset,                     // positive reset signal
   wire [31:0] rs1_dout;
   wire [31:0] rs2_dout;
   wire [31:0] alu_in_2;
-  wire [31:0] mux1_result;
-  wire [31:0] mux2_result;
-  wire [31:0] add_sum;
+  wire [31:0] mux_pc1_result;
+  wire [31:0] mux_pc2_result;
+  wire [31:0] Add_Sum;
   wire [31:0] add_four_pc;
-  wire [31:0] mux5_out;
+  wire [31:0] mux_MemOrAlu_out;
   wire [31:0] alu_result_aligned;
   wire [31:0] x17_val;
-  
-  
-  
   wire [31:0] luiVar;
-  wire [1:0] ALUSRC;
   wire [31:0] twoDigitMux_result;
+  wire [1:0] ALUSRC;
 
 
-
-  assign luiVar = 32'b0;
-  assign alu_result_aligned = alu_result & 32'hFFFFFFFE; // to make the result of ALU aligned to 4 bytes
   wire is_jal;
   wire is_jalr;
   wire branch;
@@ -50,21 +44,23 @@ module cpu(input reset,                     // positive reset signal
   wire alu_src;
   wire write_enable;
   wire pc_to_reg;
-
   wire bcond;
   wire bcond_and_branch;
-  wire JAL_or_bab;
+  wire PCSrc1;
 
+
+  assign luiVar = 32'b0;
+  assign alu_result_aligned = alu_result & 32'hFFFFFFFE; // to make the result of ALU aligned to 4 bytes
   assign bcond_and_branch = bcond & branch;
-  assign JAL_or_bab = is_jal | bcond_and_branch; //PCSrc1
-  /***** Register declarations *****/
+  assign PCSrc1 = is_jal | bcond_and_branch; //JAL_or_bab
 
+/***** Register declarations *****/
   // ---------- Update program counter ----------
   // PC must be updated on the rising edge (positive edge) of the clock.
   pc pc(
     .reset(reset),       // input (Use reset to initialize PC. Initial value must be 0)
     .clk(clk),         // input
-    .next_pc(mux2_result),     // input
+    .next_pc(mux_pc2_result),     // input
     .current_pc(current_pc)   // output
   );
   
@@ -105,8 +101,8 @@ module cpu(input reset,                     // positive reset signal
     .write_enable(write_enable),  // output
     .pc_to_reg(pc_to_reg),     // output
     .is_ecall(is_halted),       // output (ecall inst)
-    .x17_val(x17_val),
-    .ALUSRC(ALUSRC)
+    .x17_val(x17_val),          // output
+    .ALUSRC(ALUSRC)            // output
   );
 
   // ---------- Immediate Generator ----------
@@ -149,7 +145,7 @@ module cpu(input reset,                     // positive reset signal
 add_alu add_alu(
   .alu_in1(current_pc),       // input
   .alu_in2(imm_gen_out),       // input
-  .alu_result(add_sum)     // output
+  .alu_result(Add_Sum)     // output
 );
 add_alu_four add_alu_four(
   .alu_in1(current_pc),     // input
@@ -166,39 +162,39 @@ twoDigitMux twoDigitMux(
   .out(twoDigitMux_result)
 );
 
-mux mux1(
+mux mux_pc1(
   .in0(add_four_pc),
-  .in1(add_sum),
-  .sel(JAL_or_bab),
-  .out(mux1_result)
+  .in1(Add_Sum),
+  .sel(PCSrc1),
+  .out(mux_pc1_result)
 );
 
-mux mux2(
-  .in0(mux1_result),
+mux mux_pc2(
+  .in0(mux_pc1_result),
   .in1(alu_result_aligned),
   .sel(is_jalr),
-  .out(mux2_result)
+  .out(mux_pc2_result)
 );
 
-mux mux3(
-  .in0(mux5_out),
+mux mux_writeData(
+  .in0(mux_MemOrAlu_out),
   .in1(add_four_pc),
   .sel(pc_to_reg),
   .out(write_data)
 );
 
-mux mux4(
+mux mux_RegOrImm(
   .in0(rs2_dout),
   .in1(imm_gen_out),
   .sel(alu_src),
   .out(alu_in_2)
 );
 
-mux mux5(
+mux mux_MemOrAlu(
   .in0(alu_result),
   .in1(dmem_out),
   .sel(mem_to_reg),
-  .out(mux5_out)
+  .out(mux_MemOrAlu_out)
 );
 
 endmodule

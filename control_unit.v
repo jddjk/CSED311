@@ -16,20 +16,7 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
     output reg is_ecall;
     output reg [1:0] ALUSRC;
 
-    initial begin
-        write_enable = 0;
-        alu_src = 0;
-        mem_read = 0;
-        mem_write = 0;
-        mem_to_reg = 0;
-        pc_to_reg = 0;
-        is_jal = 0;
-        is_jalr = 0;
-        branch = 0;
-        is_ecall = 0;
-        ALUSRC = 2'b01;
- 
-    end
+
 
     //combinational logic which makes control signals using part_of_inst(i.e. opcode)
     always @(*) begin
@@ -67,7 +54,7 @@ module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_w
         else alu_src = 0;
 
 //RegWrite in the lecture note equals to write_enable
-//store 하거나 branch (not) taken 이면 RegWrite was 0. why??
+//store 하거나 branch (not) taken 이면 RegWrite was 0.
         if(opcode != `STORE && opcode != `BRANCH) write_enable = 1;
         else write_enable = 0;
 

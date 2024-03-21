@@ -14,10 +14,10 @@ module instruction_memory #(parameter MEM_DEPTH = 1024) (input reset,
                   addr[1:0],
                   1'b0};
 
-  // TODO
-  // Asynchronously read instruction from the memory 
-  // (use imem_addr to access memory)
-  // Combinational logic
+// TODO
+// Asynchronously read instruction from the memory 
+// (use imem_addr to access memory)
+// Combinational logic
   always @(*) begin
     dout = mem[imem_addr];
   end
@@ -36,7 +36,10 @@ module instruction_memory #(parameter MEM_DEPTH = 1024) (input reset,
         // DO NOT TOUCH COMMENT ABOVE
 
       // Provide path of the file including instructions with binary format
-      $readmemh("/Users/jinseongkim/Desktop/3_1/ac/lab/CSED311/student_tb/basic_mem.txt", mem);
+      $readmemh("/Users/jinseongkim/Desktop/3_1/ac/lab/CSED311/student_tb/example_ripes_mem.txt", mem);
+      //$readmemh("/Users/jinseongkim/Desktop/3_1/ac/lab/CSED311/student_tb/basic_mem.txt", mem);
+      //$readmemh("/Users/jinseongkim/Desktop/3_1/ac/lab/CSED311/student_tb/loop_mem.txt", mem);
+      //$readmemh("/Users/jinseongkim/Desktop/3_1/ac/lab/CSED311/student_tb/non-controlflow_mem.txt", mem);
     end
   end
 

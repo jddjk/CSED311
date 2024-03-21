@@ -12,8 +12,6 @@ module alu_control_unit(opcode, func3, func7,alu_op);
 always @(*)begin
 //have to implement alu accordingly to this operation constants
 
-
-
 //JAL doea not use this ALU
     if(opcode==`JALR) begin
         alu_op= `FUNC_JALR;  //JALR instruction
@@ -42,9 +40,6 @@ always @(*)begin
     end else begin
         alu_op = 0;
     end
-
-
-
 end
 
 
