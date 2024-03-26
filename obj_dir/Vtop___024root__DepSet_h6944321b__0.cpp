@@ -5,7 +5,7 @@
 #include "Vtop__pch.h"
 #include "Vtop___024root.h"
 
-extern const VlWide<20>/*639:0*/ Vtop__ConstPool__CONST_h9f40501b_0;
+extern const VlWide<24>/*767:0*/ Vtop__ConstPool__CONST_h46fa534c_0;
 
 VL_INLINE_OPT void Vtop___024root___act_sequent__TOP__0(Vtop___024root* vlSelf) {
     if (false && vlSelf) {}  // Prevent unused
@@ -20,7 +20,7 @@ VL_INLINE_OPT void Vtop___024root___act_sequent__TOP__0(Vtop___024root* vlSelf) 
             vlSelf->top__DOT__cpu__DOT__imem__DOT__i 
                 = ((IData)(1U) + vlSelf->top__DOT__cpu__DOT__imem__DOT__i);
         }
-        VL_READMEM_N(true, 32, 1024, 0, VL_CVT_PACK_STR_NW(20, Vtop__ConstPool__CONST_h9f40501b_0)
+        VL_READMEM_N(true, 32, 1024, 0, VL_CVT_PACK_STR_NW(24, Vtop__ConstPool__CONST_h46fa534c_0)
                      ,  &(vlSelf->top__DOT__cpu__DOT__imem__DOT__mem)
                      , 0, ~0ULL);
     }

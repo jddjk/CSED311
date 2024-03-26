@@ -36,10 +36,10 @@ module instruction_memory #(parameter MEM_DEPTH = 1024) (input reset,
         // DO NOT TOUCH COMMENT ABOVE
 
       // Provide path of the file including instructions with binary format
-      $readmemh("/Users/jinseongkim/Desktop/3_1/ac/lab/CSED311/student_tb/example_ripes_mem.txt", mem);
-      //$readmemh("/Users/jinseongkim/Desktop/3_1/ac/lab/CSED311/student_tb/basic_mem.txt", mem);
-      //$readmemh("/Users/jinseongkim/Desktop/3_1/ac/lab/CSED311/student_tb/loop_mem.txt", mem);
-      //$readmemh("/Users/jinseongkim/Desktop/3_1/ac/lab/CSED311/student_tb/non-controlflow_mem.txt", mem);
+      //$readmemh("/Users/jinseongkim/Downloads/Lab2_56406_20220089_20220036-2/student_tb/example_ripes_mem.txt", mem);
+      //$readmemh("/Users/jinseongkim/Downloads/Lab2_56406_20220089_20220036-2/student_tb/basic_mem.txt", mem);
+      //$readmemh("/Users/jinseongkim/Downloads/Lab2_56406_20220089_20220036-2/student_tb/loop_mem.txt", mem);
+      $readmemh("/Users/jinseongkim/Downloads/Lab2_56406_20220089_20220036-2/student_tb/non-controlflow_mem.txt", mem);
     end
   end
 
