@@ -7,7 +7,7 @@
 // (e.g., port declarations, remove modules, define new modules, ...)
 // 3. You might need to describe combinational logics to drive them into the module (e.g., mux, and, or, ...)
 // 4. `include files if required
-
+//
 module cpu(input reset,                     // positive reset signal
            input clk,                       // clock signal
            output is_halted,                // Whehther to finish simulation
