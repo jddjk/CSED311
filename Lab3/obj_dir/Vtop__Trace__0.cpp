@@ -153,7 +153,7 @@ void Vtop___024root__trace_chg_0_sub_0(Vtop___024root* vlSelf, VerilatedVcd::Buf
     bufp->chgBit(oldp+127,(vlSelf->top__DOT__cpu__DOT__MemRead));
     bufp->chgBit(oldp+128,(vlSelf->top__DOT__cpu__DOT__PCWrite));
     bufp->chgBit(oldp+129,(vlSelf->top__DOT__cpu__DOT__PCWriteNotCond));
-    bufp->chgCData(oldp+130,(vlSelf->top__DOT__cpu__DOT__PCSource),2);
+    bufp->chgBit(oldp+130,(vlSelf->top__DOT__cpu__DOT__PCSource));
     bufp->chgBit(oldp+131,(vlSelf->top__DOT__cpu__DOT__ALUOp));
     bufp->chgCData(oldp+132,(vlSelf->top__DOT__cpu__DOT__ALUSrcB),2);
     bufp->chgBit(oldp+133,(vlSelf->top__DOT__cpu__DOT__ALUSrcA));
@@ -214,7 +214,7 @@ void Vtop___024root__trace_chg_0_sub_0(Vtop___024root* vlSelf, VerilatedVcd::Buf
     bufp->chgBit(oldp+188,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__alu_srcA));
     bufp->chgCData(oldp+189,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__alu_srcB),2);
     bufp->chgBit(oldp+190,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__RegWrite));
-    bufp->chgCData(oldp+191,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__PCSource),2);
+    bufp->chgBit(oldp+191,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__PCSource));
     bufp->chgBit(oldp+192,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__IorD));
     bufp->chgBit(oldp+193,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__is_ecall));
     bufp->chgCData(oldp+194,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__current_state),4);

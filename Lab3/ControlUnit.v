@@ -16,10 +16,10 @@ module ControlUnit(
     output reg alu_srcA,       // output
     output reg [1:0] alu_srcB,       // output
     output reg RegWrite,     // output
-    output reg [1:0] PCSource,      // output 
+    //output reg [1:0] PCSource,      // output 
+    output reg PCSource,
     output reg IorD,        // output
     output reg is_ecall       // output (ecall inst)
-
 );
     reg [3:0] current_state, next_state;
 
@@ -86,7 +86,8 @@ module ControlUnit(
         alu_srcA = 0;
         alu_srcB = 2'b00;
         RegWrite = 0;
-        PCSource = 2'b00;
+        //PCSource = 2'b00;
+        PCSource = 0;
         IorD = 0;
 
         case (current_state)
@@ -115,40 +116,59 @@ module ControlUnit(
             `EX1: begin
                 ALUCtrlOp = 2'b00;
                 alu_srcB = 2'b10;
-                PCSource = 2'b01;
+                //PCSource = 2'b01;
+                PCSource = 1;
             end
             `EX2: begin
                 ALUCtrlOp = 2'b00;
                 alu_srcB = 2'b10;
-                PCSource = 2'b01;
+                //PCSource = 2'b01;
+                PCSource = 1;
             end
             `MEM1: begin
                 mem_write = 1;
                 alu_srcB = 2'b10;
-                PCSource = 2'b01;
+                //PCSource = 2'b01;
+                PCSource = 1;
             end
             `MEM2: begin
                 mem_write = 1;
                 alu_srcB = 2'b10;
-                PCSource = 2'b01;
+                //PCSource = 2'b01;
+                PCSource = 1;
             end
             `MEM3: begin
                 mem_write = 1;
                 alu_srcB = 2'b10;
-                PCSource = 2'b01;
+                //PCSource = 2'b01;
+                PCSource = 1;
             end
             `MEM4: begin
                 mem_write = 1;
                 alu_srcB = 2'b10;
-                PCSource = 2'b01;
+                //PCSource = 2'b01;
+                PCSource = 1;
             end
             `WB: begin
                 RegWrite = 1;
             end
+            default: begin
+                PCWrite = 0;
+                mem_read = 0;
+                mem_write = 0;
+                IRWrite = 0;
+                ALUCtrlOp = 2'b00;
+                mem_to_reg = 0;
+                alu_srcA = 0;
+                alu_srcB = 2'b00;
+                RegWrite = 0;
+                //PCSource = 2'b00;
+                PCSource = 0;
+                IorD = 0;
+            end
         endcase
-
-
     end
+    
     always @(*) begin
         if (opcode == `ECALL) is_ecall = 1;
         else is_ecall = 0;

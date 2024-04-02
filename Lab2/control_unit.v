@@ -1,20 +1,21 @@
 `include "opcodes.v"
 
 
-module control_unit(opcode, is_jal, is_jalr, branch, mem_read, mem_to_reg, mem_write, alu_src, write_enable, pc_to_reg, is_ecall, x17_val ,ALUSRC);
-    input [6:0] opcode;
-    input reg [31:0] x17_val;
-    output reg is_jal;
-    output reg is_jalr;
-    output reg branch;
-    output reg mem_read;
-    output reg mem_to_reg;
-    output reg mem_write;
-    output reg alu_src;
-    output reg write_enable;
-    output reg pc_to_reg;
-    output reg is_ecall;
-    output reg [1:0] ALUSRC;
+module control_unit(
+    input [6:0] opcode,
+    input reg [31:0] x17_val,
+    output reg is_jal,
+    output reg is_jalr,
+    output reg branch,
+    output reg mem_read,
+    output reg mem_to_reg,
+    output reg mem_write,
+    output reg alu_src,
+    output reg write_enable,
+    output reg pc_to_reg,
+    output reg is_ecall,
+    output reg [1:0] ALUSRC
+);
 
 
 

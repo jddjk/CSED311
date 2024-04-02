@@ -32,7 +32,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*0:0*/ top__DOT__cpu__DOT__MemRead;
         CData/*0:0*/ top__DOT__cpu__DOT__PCWrite;
         CData/*0:0*/ top__DOT__cpu__DOT__PCWriteNotCond;
-        CData/*1:0*/ top__DOT__cpu__DOT__PCSource;
+        CData/*0:0*/ top__DOT__cpu__DOT__PCSource;
         CData/*0:0*/ top__DOT__cpu__DOT__ALUOp;
         CData/*1:0*/ top__DOT__cpu__DOT__ALUSrcB;
         CData/*0:0*/ top__DOT__cpu__DOT__ALUSrcA;
@@ -70,7 +70,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vtop___024root final : public VerilatedModule
         CData/*0:0*/ top__DOT__cpu__DOT__ctrl_unit__DOT__alu_srcA;
         CData/*1:0*/ top__DOT__cpu__DOT__ctrl_unit__DOT__alu_srcB;
         CData/*0:0*/ top__DOT__cpu__DOT__ctrl_unit__DOT__RegWrite;
-        CData/*1:0*/ top__DOT__cpu__DOT__ctrl_unit__DOT__PCSource;
+        CData/*0:0*/ top__DOT__cpu__DOT__ctrl_unit__DOT__PCSource;
         CData/*0:0*/ top__DOT__cpu__DOT__ctrl_unit__DOT__IorD;
         CData/*0:0*/ top__DOT__cpu__DOT__ctrl_unit__DOT__is_ecall;
         CData/*3:0*/ top__DOT__cpu__DOT__ctrl_unit__DOT__current_state;

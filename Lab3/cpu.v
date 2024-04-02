@@ -44,7 +44,8 @@ module cpu(input reset,       // positive reset signal
   wire MemRead;
   wire PCWrite;
   wire PCWriteNotCond;
-  wire [1:0]PCSource;
+  //wire [1:0]PCSource;
+  wire PCSource;
   wire ALUOp;
   wire [1:0] ALUSrcB;
   wire ALUSrcA;

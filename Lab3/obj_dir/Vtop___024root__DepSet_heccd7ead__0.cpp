@@ -69,7 +69,7 @@ extern const VlUnpacked<CData/*1:0*/, 16> Vtop__ConstPool__TABLE_hcf948f29_0;
 extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h5c16ead3_0;
 extern const VlUnpacked<CData/*1:0*/, 16> Vtop__ConstPool__TABLE_hf2c18577_0;
 extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_haee0c9e2_0;
-extern const VlUnpacked<CData/*1:0*/, 16> Vtop__ConstPool__TABLE_h7e9b0eb9_0;
+extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h43b8f8d8_0;
 extern const VlUnpacked<CData/*3:0*/, 2048> Vtop__ConstPool__TABLE_hc9f02a73_0;
 
 VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) {
@@ -336,7 +336,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
         [__Vtableidx2];
     vlSelf->top__DOT__cpu__DOT__RegWrite = Vtop__ConstPool__TABLE_haee0c9e2_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__PCSource = Vtop__ConstPool__TABLE_h7e9b0eb9_0
+    vlSelf->top__DOT__cpu__DOT__PCSource = Vtop__ConstPool__TABLE_h43b8f8d8_0
         [__Vtableidx2];
     vlSelf->top__DOT__cpu__DOT__IorD = Vtop__ConstPool__TABLE_h5c16ead3_0
         [__Vtableidx2];
@@ -578,8 +578,7 @@ VL_INLINE_OPT void Vtop___024root___nba_sequent__TOP__0(Vtop___024root* vlSelf) 
     vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__PCSource 
         = vlSelf->top__DOT__cpu__DOT__PCSource;
     vlSelf->top__DOT__cpu__DOT__ALUOutmux__DOT__sel 
-        = (1U & ((IData)(vlSelf->top__DOT__cpu__DOT__PCSource) 
-                 >> 0U));
+        = vlSelf->top__DOT__cpu__DOT__PCSource;
     vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__ALUCtrlOp 
         = vlSelf->top__DOT__cpu__DOT__ALUCtrlOp;
     vlSelf->top__DOT__cpu__DOT__alu_ctrl_unit__DOT__alu_ctrl_op 
@@ -944,7 +943,7 @@ VL_INLINE_OPT void Vtop___024root___nba_comb__TOP__0(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___nba_comb__TOP__0\n"); );
     // Body
-    vlSelf->top__DOT__cpu__DOT__PCSrcWire = ((1U & (IData)(vlSelf->top__DOT__cpu__DOT__PCSource))
+    vlSelf->top__DOT__cpu__DOT__PCSrcWire = ((IData)(vlSelf->top__DOT__cpu__DOT__PCSource)
                                               ? vlSelf->top__DOT__cpu__DOT__ALUOut
                                               : vlSelf->top__DOT__cpu__DOT__alu_result);
     vlSelf->top__DOT__cpu__DOT__cond2 = ((IData)(vlSelf->top__DOT__cpu__DOT__cond1) 

@@ -62,7 +62,7 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->declBit(c+128,0,"MemRead",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+129,0,"PCWrite",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+130,0,"PCWriteNotCond",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+131,0,"PCSource",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
+    tracep->declBit(c+131,0,"PCSource",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+132,0,"ALUOp",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+133,0,"ALUSrcB",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
     tracep->declBit(c+134,0,"ALUSrcA",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
@@ -139,7 +139,7 @@ VL_ATTR_COLD void Vtop___024root__trace_init_sub__TOP__0(Vtop___024root* vlSelf,
     tracep->declBit(c+189,0,"alu_srcA",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+190,0,"alu_srcB",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
     tracep->declBit(c+191,0,"RegWrite",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
-    tracep->declBus(c+192,0,"PCSource",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1, 1,0);
+    tracep->declBit(c+192,0,"PCSource",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+193,0,"IorD",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBit(c+194,0,"is_ecall",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::LOGIC, false,-1);
     tracep->declBus(c+195,0,"current_state",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::LOGIC, false,-1, 3,0);
@@ -391,7 +391,7 @@ VL_ATTR_COLD void Vtop___024root__trace_full_0_sub_0(Vtop___024root* vlSelf, Ver
     bufp->fullBit(oldp+128,(vlSelf->top__DOT__cpu__DOT__MemRead));
     bufp->fullBit(oldp+129,(vlSelf->top__DOT__cpu__DOT__PCWrite));
     bufp->fullBit(oldp+130,(vlSelf->top__DOT__cpu__DOT__PCWriteNotCond));
-    bufp->fullCData(oldp+131,(vlSelf->top__DOT__cpu__DOT__PCSource),2);
+    bufp->fullBit(oldp+131,(vlSelf->top__DOT__cpu__DOT__PCSource));
     bufp->fullBit(oldp+132,(vlSelf->top__DOT__cpu__DOT__ALUOp));
     bufp->fullCData(oldp+133,(vlSelf->top__DOT__cpu__DOT__ALUSrcB),2);
     bufp->fullBit(oldp+134,(vlSelf->top__DOT__cpu__DOT__ALUSrcA));
@@ -452,7 +452,7 @@ VL_ATTR_COLD void Vtop___024root__trace_full_0_sub_0(Vtop___024root* vlSelf, Ver
     bufp->fullBit(oldp+189,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__alu_srcA));
     bufp->fullCData(oldp+190,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__alu_srcB),2);
     bufp->fullBit(oldp+191,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__RegWrite));
-    bufp->fullCData(oldp+192,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__PCSource),2);
+    bufp->fullBit(oldp+192,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__PCSource));
     bufp->fullBit(oldp+193,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__IorD));
     bufp->fullBit(oldp+194,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__is_ecall));
     bufp->fullCData(oldp+195,(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__current_state),4);
