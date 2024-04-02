@@ -94,18 +94,22 @@ module ControlUnit(
             `IF1: begin
                 PCWrite = 1;
                 mem_read = 1;
+                mem_write = 1;
             end
             `IF2: begin
                 PCWrite = 1;
                 mem_read = 1;
+                mem_write = 1;
             end
             `IF3: begin
                 PCWrite = 1;
                 mem_read = 1;
+                mem_write = 1;
             end
             `IF4: begin
                 PCWrite = 1;
                 mem_read = 1;
+                mem_write = 1;
             end
             `ID: begin
                 IRWrite = 1;
