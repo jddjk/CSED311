@@ -10,6 +10,7 @@ module RegisterFile(input	reset,
                     output [31:0] print_reg[0:31]);  // output of rs 2
   integer i;
   // Register file
+  sdfsfsdfs
   reg [31:0] rf[0:31];
   assign print_reg = rf;
   // Asynchronously read register file
