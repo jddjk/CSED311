@@ -174,7 +174,7 @@ module ControlUnit(
     end
     
     always @(*) begin
-        if (opcode == `ECALL) is_ecall = 1;
+        if (opcode == `ECALL && x17_val==10) is_ecall = 1;
         else is_ecall = 0;
     end
 
