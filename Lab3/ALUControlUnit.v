@@ -14,7 +14,7 @@ module ALUControlUnit (
     always @(*) begin
         case (alu_ctrl_op)
             2'b00: begin // l/s inst.
-                alu_op = 4'b0010; // ADD
+                alu_op = `FUNC_ADD; // ADD
             end
             2'b01: begin // branch inst.
                 case(instruction[14:12]) 

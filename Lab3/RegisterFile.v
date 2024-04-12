@@ -15,7 +15,7 @@ module RegisterFile(input	reset,
   // Asynchronously read register file
   assign rs1_dout = rf[rs1];
   assign rs2_dout = rf[rs2];
-ds
+
   always @(posedge clk) begin
     // Initialize register file (do not touch)
     if (reset) begin
