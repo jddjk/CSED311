@@ -11,7 +11,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__ico(Vtop___024root* vlSelf);
 #endif  // VL_DEBUG
 
 void Vtop___024root___eval_triggers__ico(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_triggers__ico\n"); );
     // Body
@@ -28,7 +28,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf);
 #endif  // VL_DEBUG
 
 void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_triggers__act\n"); );
     // Body

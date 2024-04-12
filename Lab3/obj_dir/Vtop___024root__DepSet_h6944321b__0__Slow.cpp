@@ -6,7 +6,7 @@
 #include "Vtop___024root.h"
 
 VL_ATTR_COLD void Vtop___024root___eval_static(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_static\n"); );
 }
@@ -14,7 +14,7 @@ VL_ATTR_COLD void Vtop___024root___eval_static(Vtop___024root* vlSelf) {
 VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf);
 
 VL_ATTR_COLD void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial\n"); );
     // Body
@@ -29,7 +29,7 @@ VL_ATTR_COLD void Vtop___024root___eval_initial(Vtop___024root* vlSelf) {
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_initial__TOP\n"); );
     // Body
@@ -39,7 +39,7 @@ VL_ATTR_COLD void Vtop___024root___eval_initial__TOP(Vtop___024root* vlSelf) {
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_final(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_final\n"); );
 }
@@ -50,7 +50,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf);
 VL_ATTR_COLD bool Vtop___024root___eval_phase__stl(Vtop___024root* vlSelf);
 
 VL_ATTR_COLD void Vtop___024root___eval_settle(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_settle\n"); );
     // Init
@@ -78,11 +78,11 @@ VL_ATTR_COLD void Vtop___024root___eval_settle(Vtop___024root* vlSelf) {
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___dump_triggers__stl\n"); );
     // Body
-    if ((1U & (~ vlSelf->__VstlTriggered.any()))) {
+    if ((1U & (~ (IData)(vlSelf->__VstlTriggered.any())))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
@@ -91,18 +91,18 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__stl(Vtop___024root* vlSelf) {
 }
 #endif  // VL_DEBUG
 
-extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h4662afda_0;
-extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h060d699d_0;
-extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h226c588b_0;
-extern const VlUnpacked<CData/*1:0*/, 16> Vtop__ConstPool__TABLE_hcf948f29_0;
-extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h5c16ead3_0;
-extern const VlUnpacked<CData/*1:0*/, 16> Vtop__ConstPool__TABLE_hf2c18577_0;
-extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_haee0c9e2_0;
-extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h43b8f8d8_0;
-extern const VlUnpacked<CData/*3:0*/, 2048> Vtop__ConstPool__TABLE_hc9f02a73_0;
+extern const VlUnpacked<CData/*3:0*/, 2048> Vtop__ConstPool__TABLE_h99b5dfbe_0;
+extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h4991ccc4_0;
+extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_hc796b2a3_0;
+extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h6678b48b_0;
+extern const VlUnpacked<CData/*1:0*/, 16> Vtop__ConstPool__TABLE_h923bd7f6_0;
+extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h6685a702_0;
+extern const VlUnpacked<CData/*1:0*/, 16> Vtop__ConstPool__TABLE_hae4637a2_0;
+extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_hd2a7333b_0;
+extern const VlUnpacked<CData/*0:0*/, 16> Vtop__ConstPool__TABLE_h3232b41a_0;
 
 VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___stl_sequent__TOP__0\n"); );
     // Init
@@ -123,6 +123,9 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rd = 
         (0x1fU & (vlSelf->top__DOT__cpu__DOT__IR >> 7U));
     vlSelf->top__DOT__cpu__DOT__memory__DOT__din = vlSelf->top__DOT__cpu__DOT__B;
+    vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__opcode 
+        = (0x7fU & (vlSelf->top__DOT__cpu__DOT__IR 
+                    >> 0U));
     vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__PCWriteNotCond 
         = vlSelf->top__DOT__cpu__DOT__PCWriteNotCond;
     vlSelf->top__DOT__cpu__DOT__alu__DOT__alu_result 
@@ -145,16 +148,27 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         = vlSelf->top__DOT__cpu__DOT__ALUOut;
     vlSelf->top__DOT__cpu__DOT__ALUSourceBmux__DOT__in0 
         = vlSelf->top__DOT__cpu__DOT__B;
+    vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode 
+        = (0x7fU & vlSelf->top__DOT__cpu__DOT__IR);
     vlSelf->top__DOT__cpu__DOT__wire_A = vlSelf->top__DOT__cpu__DOT__A;
     vlSelf->top__DOT__cpu__DOT__wire_ALUOut = vlSelf->top__DOT__cpu__DOT__ALUOut;
     vlSelf->top__DOT__cpu__DOT__wire_B = vlSelf->top__DOT__cpu__DOT__B;
     vlSelf->top__DOT__is_halted = vlSelf->is_halted;
-    vlSelf->top__DOT__cpu__DOT__wire_MDR = vlSelf->top__DOT__cpu__DOT__MDR;
     vlSelf->top__DOT__cpu__DOT__x17 = vlSelf->top__DOT__cpu__DOT__x17_val;
+    vlSelf->top__DOT__cpu__DOT__wire_MDR = vlSelf->top__DOT__cpu__DOT__MDR;
+    __Vtableidx1 = ((0x7f0U & (vlSelf->top__DOT__cpu__DOT__IR 
+                               << 4U)) | (IData)(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__current_state));
+    vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__next_state 
+        = Vtop__ConstPool__TABLE_h99b5dfbe_0[__Vtableidx1];
     vlSelf->top__DOT__cpu__DOT__reg_to_A = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [(0x1fU & (vlSelf->top__DOT__cpu__DOT__IR >> 0xfU))];
     vlSelf->top__DOT__cpu__DOT__reg_to_B = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [(0x1fU & (vlSelf->top__DOT__cpu__DOT__IR >> 0x14U))];
+    vlSelf->top__DOT__cpu__DOT__is_ecall = ((0x73U 
+                                             == (0x7fU 
+                                                 & vlSelf->top__DOT__cpu__DOT__IR)) 
+                                            & (0xaU 
+                                               == vlSelf->top__DOT__cpu__DOT__x17_val));
     vlSelf->top__DOT__cpu__DOT__cond1 = ((~ (IData)(vlSelf->top__DOT__cpu__DOT__bcond)) 
                                          & (IData)(vlSelf->top__DOT__cpu__DOT__PCWriteNotCond));
     vlSelf->top__DOT__reset = vlSelf->reset;
@@ -166,30 +180,28 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                     >> 0x14U)) | (0x1fU & (vlSelf->top__DOT__cpu__DOT__IR 
                                            >> 7U)));
     vlSelf->top__DOT__cpu__DOT__wire_IR = vlSelf->top__DOT__cpu__DOT__IR;
-    vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode 
-        = (0x7fU & vlSelf->top__DOT__cpu__DOT__IR);
     __Vtableidx2 = vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__current_state;
-    vlSelf->top__DOT__cpu__DOT__PCWrite = Vtop__ConstPool__TABLE_h4662afda_0
+    vlSelf->top__DOT__cpu__DOT__PCWrite = Vtop__ConstPool__TABLE_h4991ccc4_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__MemRead = Vtop__ConstPool__TABLE_h4662afda_0
+    vlSelf->top__DOT__cpu__DOT__MemRead = Vtop__ConstPool__TABLE_h4991ccc4_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__MemWrite = Vtop__ConstPool__TABLE_h060d699d_0
+    vlSelf->top__DOT__cpu__DOT__MemWrite = Vtop__ConstPool__TABLE_hc796b2a3_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__IRWrite = Vtop__ConstPool__TABLE_h226c588b_0
+    vlSelf->top__DOT__cpu__DOT__IRWrite = Vtop__ConstPool__TABLE_h6678b48b_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__ALUCtrlOp = Vtop__ConstPool__TABLE_hcf948f29_0
+    vlSelf->top__DOT__cpu__DOT__ALUCtrlOp = Vtop__ConstPool__TABLE_h923bd7f6_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__MemToReg = Vtop__ConstPool__TABLE_h5c16ead3_0
+    vlSelf->top__DOT__cpu__DOT__MemToReg = Vtop__ConstPool__TABLE_h6685a702_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__ALUSrcA = Vtop__ConstPool__TABLE_h226c588b_0
+    vlSelf->top__DOT__cpu__DOT__ALUSrcA = Vtop__ConstPool__TABLE_h6678b48b_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__ALUSrcB = Vtop__ConstPool__TABLE_hf2c18577_0
+    vlSelf->top__DOT__cpu__DOT__ALUSrcB = Vtop__ConstPool__TABLE_hae4637a2_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__RegWrite = Vtop__ConstPool__TABLE_haee0c9e2_0
+    vlSelf->top__DOT__cpu__DOT__RegWrite = Vtop__ConstPool__TABLE_hd2a7333b_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__PCSource = Vtop__ConstPool__TABLE_h43b8f8d8_0
+    vlSelf->top__DOT__cpu__DOT__PCSource = Vtop__ConstPool__TABLE_h3232b41a_0
         [__Vtableidx2];
-    vlSelf->top__DOT__cpu__DOT__IorD = Vtop__ConstPool__TABLE_h5c16ead3_0
+    vlSelf->top__DOT__cpu__DOT__IorD = Vtop__ConstPool__TABLE_h6685a702_0
         [__Vtableidx2];
     vlSelf->print_reg[0U] = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [0U];
@@ -256,29 +268,26 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     vlSelf->print_reg[0x1fU] = vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rf
         [0x1fU];
     vlSelf->top__DOT__cpu__DOT__is_halted = vlSelf->top__DOT__is_halted;
-    vlSelf->top__DOT__cpu__DOT__RegSourceMux__DOT__in1 
-        = vlSelf->top__DOT__cpu__DOT__wire_MDR;
     vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__x17_val 
         = vlSelf->top__DOT__cpu__DOT__x17;
+    vlSelf->top__DOT__cpu__DOT__RegSourceMux__DOT__in1 
+        = vlSelf->top__DOT__cpu__DOT__wire_MDR;
     vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rs1_dout 
         = vlSelf->top__DOT__cpu__DOT__reg_to_A;
     vlSelf->top__DOT__cpu__DOT__reg_file__DOT__rs2_dout 
         = vlSelf->top__DOT__cpu__DOT__reg_to_B;
+    vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__is_ecall 
+        = vlSelf->top__DOT__cpu__DOT__is_ecall;
     vlSelf->top__DOT__cpu__DOT__reset = vlSelf->top__DOT__reset;
     vlSelf->top__DOT__cpu__DOT__clk = vlSelf->top__DOT__clk;
     vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__instruction 
         = vlSelf->top__DOT__cpu__DOT__wire_IR;
     vlSelf->top__DOT__cpu__DOT__alu_ctrl_unit__DOT__instruction 
         = vlSelf->top__DOT__cpu__DOT__wire_IR;
-    vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__opcode 
-        = vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode;
-    vlSelf->top__DOT__cpu__DOT__is_ecall = (0x73U == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode));
-    __Vtableidx1 = (((IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode) 
-                     << 4U) | (IData)(vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__current_state));
-    vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__next_state 
-        = Vtop__ConstPool__TABLE_hc9f02a73_0[__Vtableidx1];
     vlSelf->top__DOT__cpu__DOT__imm_gen_out = ((0x13U 
-                                                == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode))
+                                                == 
+                                                (0x7fU 
+                                                 & vlSelf->top__DOT__cpu__DOT__IR))
                                                 ? (
                                                    ((- (IData)(
                                                                (vlSelf->top__DOT__cpu__DOT__wire_IR 
@@ -287,7 +296,9 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                    | (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__immediate))
                                                 : (
                                                    (3U 
-                                                    == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode))
+                                                    == 
+                                                    (0x7fU 
+                                                     & vlSelf->top__DOT__cpu__DOT__IR))
                                                     ? 
                                                    (((- (IData)(
                                                                 (vlSelf->top__DOT__cpu__DOT__wire_IR 
@@ -296,7 +307,9 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                     | (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__immediate))
                                                     : 
                                                    ((0x67U 
-                                                     == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode))
+                                                     == 
+                                                     (0x7fU 
+                                                      & vlSelf->top__DOT__cpu__DOT__IR))
                                                      ? 
                                                     (((- (IData)(
                                                                  (vlSelf->top__DOT__cpu__DOT__wire_IR 
@@ -305,7 +318,9 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                      | (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__immediate))
                                                      : 
                                                     ((0x23U 
-                                                      == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode))
+                                                      == 
+                                                      (0x7fU 
+                                                       & vlSelf->top__DOT__cpu__DOT__IR))
                                                       ? 
                                                      (((- (IData)(
                                                                   (vlSelf->top__DOT__cpu__DOT__wire_IR 
@@ -314,7 +329,9 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                       | (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__imm))
                                                       : 
                                                      ((0x63U 
-                                                       == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode))
+                                                       == 
+                                                       (0x7fU 
+                                                        & vlSelf->top__DOT__cpu__DOT__IR))
                                                        ? 
                                                       (((- (IData)(
                                                                    (vlSelf->top__DOT__cpu__DOT__wire_IR 
@@ -334,7 +351,9 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                                       >> 7U))))))
                                                        : 
                                                       ((0x6fU 
-                                                        == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode))
+                                                        == 
+                                                        (0x7fU 
+                                                         & vlSelf->top__DOT__cpu__DOT__IR))
                                                         ? 
                                                        (((- (IData)(
                                                                     (vlSelf->top__DOT__cpu__DOT__wire_IR 
@@ -353,13 +372,17 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                                        >> 0x14U))))))
                                                         : 
                                                        ((0x37U 
-                                                         == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode))
+                                                         == 
+                                                         (0x7fU 
+                                                          & vlSelf->top__DOT__cpu__DOT__IR))
                                                          ? 
                                                         (0xfffff000U 
                                                          & vlSelf->top__DOT__cpu__DOT__wire_IR)
                                                          : 
                                                         ((0x17U 
-                                                          == (IData)(vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__opcode))
+                                                          == 
+                                                          (0x7fU 
+                                                           & vlSelf->top__DOT__cpu__DOT__IR))
                                                           ? 
                                                          (0xfffff000U 
                                                           & vlSelf->top__DOT__cpu__DOT__wire_IR)
@@ -378,10 +401,6 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         = vlSelf->top__DOT__cpu__DOT__PCWrite;
     vlSelf->top__DOT__cpu__DOT__cond2 = ((IData)(vlSelf->top__DOT__cpu__DOT__cond1) 
                                          | (IData)(vlSelf->top__DOT__cpu__DOT__PCWrite));
-    vlSelf->top__DOT__cpu__DOT__memory__DOT__mem_read 
-        = vlSelf->top__DOT__cpu__DOT__MemRead;
-    vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__mem_read 
-        = vlSelf->top__DOT__cpu__DOT__MemRead;
     if (vlSelf->top__DOT__cpu__DOT__PCSource) {
         vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__PCSource = 1U;
         vlSelf->top__DOT__cpu__DOT__ALUOutmux__DOT__sel = 1U;
@@ -391,26 +410,62 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
         vlSelf->top__DOT__cpu__DOT__ALUOutmux__DOT__sel = 0U;
         vlSelf->top__DOT__cpu__DOT__PCSrcWire = vlSelf->top__DOT__cpu__DOT__alu_result;
     }
+    vlSelf->top__DOT__cpu__DOT__memory__DOT__mem_read 
+        = vlSelf->top__DOT__cpu__DOT__MemRead;
+    vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__mem_read 
+        = vlSelf->top__DOT__cpu__DOT__MemRead;
     vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__ALUCtrlOp 
         = vlSelf->top__DOT__cpu__DOT__ALUCtrlOp;
     vlSelf->top__DOT__cpu__DOT__alu_ctrl_unit__DOT__alu_ctrl_op 
         = vlSelf->top__DOT__cpu__DOT__ALUCtrlOp;
-    vlSelf->top__DOT__cpu__DOT__alu_op = ((0U == (IData)(vlSelf->top__DOT__cpu__DOT__ALUCtrlOp))
-                                           ? 2U : (
-                                                   (1U 
-                                                    == (IData)(vlSelf->top__DOT__cpu__DOT__ALUCtrlOp))
+    vlSelf->top__DOT__cpu__DOT__alu_op = ((2U & (IData)(vlSelf->top__DOT__cpu__DOT__ALUCtrlOp))
+                                           ? ((1U & (IData)(vlSelf->top__DOT__cpu__DOT__ALUCtrlOp))
+                                               ? ((0x67U 
+                                                   == 
+                                                   (0x7fU 
+                                                    & vlSelf->top__DOT__cpu__DOT__wire_IR))
+                                                   ? 0xfU
+                                                   : 0xaU)
+                                               : ((0x33U 
+                                                   == 
+                                                   (0x7fU 
+                                                    & vlSelf->top__DOT__cpu__DOT__wire_IR))
+                                                   ? 
+                                                  ((0x20U 
+                                                    == 
+                                                    (vlSelf->top__DOT__cpu__DOT__wire_IR 
+                                                     >> 0x19U))
                                                     ? 
+                                                   ((0U 
+                                                     == 
+                                                     (7U 
+                                                      & (vlSelf->top__DOT__cpu__DOT__wire_IR 
+                                                         >> 0xcU)))
+                                                     ? 4U
+                                                     : 
+                                                    ((5U 
+                                                      == 
+                                                      (7U 
+                                                       & (vlSelf->top__DOT__cpu__DOT__wire_IR 
+                                                          >> 0xcU)))
+                                                      ? 5U
+                                                      : 0xaU))
+                                                    : 
                                                    ((0x4000U 
                                                      & vlSelf->top__DOT__cpu__DOT__wire_IR)
                                                      ? 
                                                     ((0x2000U 
                                                       & vlSelf->top__DOT__cpu__DOT__wire_IR)
-                                                      ? 0xaU
+                                                      ? 
+                                                     ((0x1000U 
+                                                       & vlSelf->top__DOT__cpu__DOT__wire_IR)
+                                                       ? 7U
+                                                       : 8U)
                                                       : 
                                                      ((0x1000U 
                                                        & vlSelf->top__DOT__cpu__DOT__wire_IR)
-                                                       ? 0xbU
-                                                       : 0xcU))
+                                                       ? 5U
+                                                       : 9U))
                                                      : 
                                                     ((0x2000U 
                                                       & vlSelf->top__DOT__cpu__DOT__wire_IR)
@@ -418,55 +473,31 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                                       : 
                                                      ((0x1000U 
                                                        & vlSelf->top__DOT__cpu__DOT__wire_IR)
-                                                       ? 0xdU
-                                                       : 0xeU)))
+                                                       ? 6U
+                                                       : 0xaU))))
+                                                   : 0xaU))
+                                           : ((1U & (IData)(vlSelf->top__DOT__cpu__DOT__ALUCtrlOp))
+                                               ? ((0x4000U 
+                                                   & vlSelf->top__DOT__cpu__DOT__wire_IR)
+                                                   ? 
+                                                  ((0x2000U 
+                                                    & vlSelf->top__DOT__cpu__DOT__wire_IR)
+                                                    ? 0xaU
                                                     : 
-                                                   ((2U 
-                                                     == (IData)(vlSelf->top__DOT__cpu__DOT__ALUCtrlOp))
-                                                     ? 
-                                                    ((0x33U 
-                                                      == 
-                                                      (0x7fU 
-                                                       & vlSelf->top__DOT__cpu__DOT__wire_IR))
-                                                      ? 
-                                                     ((0x20U 
-                                                       == 
-                                                       (vlSelf->top__DOT__cpu__DOT__wire_IR 
-                                                        >> 0x19U))
-                                                       ? 4U
-                                                       : 
-                                                      ((0x4000U 
-                                                        & vlSelf->top__DOT__cpu__DOT__wire_IR)
-                                                        ? 
-                                                       ((0x2000U 
-                                                         & vlSelf->top__DOT__cpu__DOT__wire_IR)
-                                                         ? 
-                                                        ((0x1000U 
-                                                          & vlSelf->top__DOT__cpu__DOT__wire_IR)
-                                                          ? 7U
-                                                          : 8U)
-                                                         : 
-                                                        ((0x1000U 
-                                                          & vlSelf->top__DOT__cpu__DOT__wire_IR)
-                                                          ? 5U
-                                                          : 9U))
-                                                        : 
-                                                       ((0x2000U 
-                                                         & vlSelf->top__DOT__cpu__DOT__wire_IR)
-                                                         ? 0xaU
-                                                         : 
-                                                        ((0x1000U 
-                                                          & vlSelf->top__DOT__cpu__DOT__wire_IR)
-                                                          ? 6U
-                                                          : 0xaU))))
-                                                      : 
-                                                     ((0x67U 
-                                                       == 
-                                                       (0x7fU 
-                                                        & vlSelf->top__DOT__cpu__DOT__wire_IR))
-                                                       ? 0xfU
-                                                       : 0xaU))
-                                                     : 0U)));
+                                                   ((0x1000U 
+                                                     & vlSelf->top__DOT__cpu__DOT__wire_IR)
+                                                     ? 0xbU
+                                                     : 0xcU))
+                                                   : 
+                                                  ((0x2000U 
+                                                    & vlSelf->top__DOT__cpu__DOT__wire_IR)
+                                                    ? 0xaU
+                                                    : 
+                                                   ((0x1000U 
+                                                     & vlSelf->top__DOT__cpu__DOT__wire_IR)
+                                                     ? 0xdU
+                                                     : 0xeU)))
+                                               : 0xaU));
     if (vlSelf->top__DOT__cpu__DOT__MemToReg) {
         vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__mem_to_reg = 1U;
         vlSelf->top__DOT__cpu__DOT__RegSourceMux__DOT__sel = 1U;
@@ -703,8 +734,6 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
     vlSelf->top__DOT__cpu__DOT__memory__DOT__clk = vlSelf->top__DOT__cpu__DOT__clk;
     vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__clk 
         = vlSelf->top__DOT__cpu__DOT__clk;
-    vlSelf->top__DOT__cpu__DOT__ctrl_unit__DOT__is_ecall 
-        = vlSelf->top__DOT__cpu__DOT__is_ecall;
     vlSelf->top__DOT__cpu__DOT__imm_gen__DOT__imm_gen_out 
         = vlSelf->top__DOT__cpu__DOT__imm_gen_out;
     vlSelf->top__DOT__cpu__DOT__ALUSourceBmux__DOT__in2 
@@ -747,11 +776,14 @@ VL_ATTR_COLD void Vtop___024root___stl_sequent__TOP__0(Vtop___024root* vlSelf) {
                                             [(0x3fffU 
                                               & vlSelf->top__DOT__cpu__DOT__memory__DOT__mem_addr)]
                                              : 0U);
+    if (VL_UNLIKELY((0U != vlSelf->top__DOT__cpu__DOT__mem_data))) {
+        VL_WRITEF("instruction:%10# \n",32,vlSelf->top__DOT__cpu__DOT__mem_data);
+    }
     vlSelf->top__DOT__cpu__DOT__memory__DOT__dout = vlSelf->top__DOT__cpu__DOT__mem_data;
 }
 
 VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_stl\n"); );
     // Body
@@ -763,7 +795,7 @@ VL_ATTR_COLD void Vtop___024root___eval_stl(Vtop___024root* vlSelf) {
 VL_ATTR_COLD void Vtop___024root___eval_triggers__stl(Vtop___024root* vlSelf);
 
 VL_ATTR_COLD bool Vtop___024root___eval_phase__stl(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_phase__stl\n"); );
     // Init
@@ -779,11 +811,11 @@ VL_ATTR_COLD bool Vtop___024root___eval_phase__stl(Vtop___024root* vlSelf) {
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__ico(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___dump_triggers__ico\n"); );
     // Body
-    if ((1U & (~ vlSelf->__VicoTriggered.any()))) {
+    if ((1U & (~ (IData)(vlSelf->__VicoTriggered.any())))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VicoTriggered.word(0U))) {
@@ -794,11 +826,11 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__ico(Vtop___024root* vlSelf) {
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___dump_triggers__act\n"); );
     // Body
-    if ((1U & (~ vlSelf->__VactTriggered.any()))) {
+    if ((1U & (~ (IData)(vlSelf->__VactTriggered.any())))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VactTriggered.word(0U))) {
@@ -812,11 +844,11 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__act(Vtop___024root* vlSelf) {
 
 #ifdef VL_DEBUG
 VL_ATTR_COLD void Vtop___024root___dump_triggers__nba(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___dump_triggers__nba\n"); );
     // Body
-    if ((1U & (~ vlSelf->__VnbaTriggered.any()))) {
+    if ((1U & (~ (IData)(vlSelf->__VnbaTriggered.any())))) {
         VL_DBG_MSGF("         No triggers active\n");
     }
     if ((1ULL & vlSelf->__VnbaTriggered.word(0U))) {
@@ -829,7 +861,7 @@ VL_ATTR_COLD void Vtop___024root___dump_triggers__nba(Vtop___024root* vlSelf) {
 #endif  // VL_DEBUG
 
 VL_ATTR_COLD void Vtop___024root___ctor_var_reset(Vtop___024root* vlSelf) {
-    (void)vlSelf;  // Prevent unused variable warning
+    if (false && vlSelf) {}  // Prevent unused
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___ctor_var_reset\n"); );
     // Body

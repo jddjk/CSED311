@@ -88,11 +88,18 @@ module cpu(input reset,       // positive reset signal
       ALUOut <= 32'b0;
     end
     else begin
+      if(mem_data != 0) begin
+        $display("IRwrite:%d ", IRWrite); // FOR DEBUGGING
+        $display("mem_data:%d ", mem_data); // FOR DEBUGGING
+      end
+
       if(IorD) MDR <= mem_data;
       A <= reg_to_A;
       B <= reg_to_B;
       ALUOut <= alu_result;
-      if (!IorD && IRWrite) begin
+      
+      if (IRWrite) begin
+        
         IR <= mem_data;
       end
     end

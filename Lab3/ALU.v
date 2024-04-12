@@ -27,6 +27,7 @@ end
 	YOUR ALU FUNCTIONALITY IMPLEMENTATION...
 */
 	always @(alu_in_1, alu_in_2, alu_op) begin
+		
 		case(alu_op)
 			`FUNC_JALR: alu_result <= (alu_in_1 + alu_in_2)&32'hfffffffe;
 			`FUNC_ADD: alu_result <= alu_in_1 + alu_in_2;

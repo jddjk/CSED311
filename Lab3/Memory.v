@@ -14,6 +14,14 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
 
   // Asynchrnously read data from the memory
   assign dout = (mem_read) ? mem[mem_addr] : 32'b0;
+  always @(*) begin
+
+    if(dout !=0) $display("instruction:%d ", dout); // FOR DEBUGGING
+  end
+
+
+
+
 
   always @(posedge clk) begin
     // Initialize data memory (do not touch)
@@ -25,7 +33,7 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
         /* verilator lint_on BLKSEQ */
         // DO NOT TOUCH COMMENT ABOVE
       // Provide path of the file including instructions with binary format
-      $readmemh("./student_tb/basic_mem.txt", mem);
+      $readmemh("./student_tb/test.txt", mem);
     end
 
     // Synchronously write data to the memory

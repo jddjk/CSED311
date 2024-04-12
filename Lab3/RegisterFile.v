@@ -17,8 +17,12 @@ module RegisterFile(input	reset,
   assign rs2_dout = rf[rs2];
 
   always @(posedge clk) begin
+      if(rs1 !=0) begin
+          $display("rs1:%d ", rs1); // FOR DEBUGGING
+      end
     // Initialize register file (do not touch)
     if (reset) begin
+
       for (i = 0; i < 32; i = i + 1)
         rf[i] <= 32'b0;
       rf[2] <= 32'h2ffc; // stack pointer
@@ -26,8 +30,16 @@ module RegisterFile(input	reset,
 
     // Synchronously write data to the register
     else begin
-      if (write_enable && rd != 0)
+
+       
+      
+    
+
+      if (write_enable && rd != 0) begin
+       // $display("op: "); // FOR DEBUGGING
         rf[rd] <= rd_din;
+      end
+
     end
   end
 endmodule

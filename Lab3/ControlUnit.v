@@ -30,6 +30,8 @@ module ControlUnit(
     end
 
     always @(*) begin
+        
+
         case (current_state)
             `IF1: next_state = `IF2;
             `IF2: next_state = `IF3;
@@ -40,6 +42,7 @@ module ControlUnit(
             `ID: next_state = `EX1;
             `EX1: next_state = `EX2;
             `EX2: begin
+                //$display("current_state: %d", current_state); // FOR DEBUGGING
                 case(opcode)
                     `LOAD: next_state = `MEM1;
                     `STORE: next_state = `MEM1;
@@ -73,6 +76,7 @@ module ControlUnit(
             end
             default: next_state = `IF1;
         endcase
+  
     end
 
     // Control signal
@@ -89,7 +93,8 @@ module ControlUnit(
         //PCSource = 2'b00;
         PCSource = 0;
         IorD = 0;
-
+ 
+        
         case (current_state)
             `IF1: begin
                 PCWrite = 1;
@@ -171,6 +176,8 @@ module ControlUnit(
                 IorD = 0;
             end
         endcase
+
+       // if(IRWrite !=0 ) $display("IRwrite:%d ", IRWrite); // FOR DEBUGGING
     end
     
     always @(*) begin
