@@ -88,11 +88,11 @@ module cpu(input reset,       // positive reset signal
       ALUOut <= 32'b0;
     end
     else begin
-      MDR <= mem_data;
+      if(IorD) MDR <= mem_data;
       A <= reg_to_A;
       B <= reg_to_B;
       ALUOut <= alu_result;
-      if (IRWrite) begin
+      if (!IorD && IRWrite) begin
         IR <= mem_data;
       end
     end
