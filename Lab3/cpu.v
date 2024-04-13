@@ -62,6 +62,11 @@ module cpu(input reset,       // positive reset signal
   assign cond2 = cond1 | PCWrite;
 
 
+  wire [3:0] current_state;
+  wire [3:0] next_state;
+  wire [3:0] rom1_out;
+  wire [3:0] rom2_out;
+
   /***** Register declarations *****/
   reg [31:0] IR; // instruction register
   reg [31:0] MDR; // memory data register
@@ -93,13 +98,12 @@ module cpu(input reset,       // positive reset signal
         $display("mem_data:%d ", mem_data); // FOR DEBUGGING
       end
 
-      if(IorD) MDR <= mem_data;
+      MDR <= mem_data;
       A <= reg_to_A;
       B <= reg_to_B;
       ALUOut <= alu_result;
       
       if (IRWrite) begin
-        
         IR <= mem_data;
       end
     end
@@ -145,10 +149,7 @@ module cpu(input reset,       // positive reset signal
 
   // ---------- Control Unit ----------
   ControlUnit ctrl_unit(
-    .opcode(wire_IR[6:0]),  // input
-    .clk(clk),
-    .reset(reset),
-    .x17_val(x17),
+    .current_state(current_state), //input: current_state, 이걸로 control signal generate한다. 
     .PCWrite(PCWrite),      // output
     .PCWriteNotCond(PCWriteNotCond), // output
     .IRWrite(IRWrite),      // output
@@ -163,6 +164,48 @@ module cpu(input reset,       // positive reset signal
     .IorD(IorD),        // output
     .is_ecall(is_ecall)       // output (ecall inst)
   );
+
+
+
+  nextStateAdder next_state_adder(    //current state가 바뀌는 즉시 get next state
+    .current_state(current_state),  // input
+    .reset(reset),  // input
+    .next_state(next_state)  // output
+  );
+
+  stateRegister state_register(      //clk마다 current state에 next state 넣기
+    .clk(clk),
+    .reset(reset),
+    .next_state(next_state),
+    .current_state(current_state)
+  );
+
+
+  rom1 rom_1(
+    .opcode(wire_IR[6:0]),
+    .rom1_out(rom1_out)
+  );
+
+  rom2 rom_2(
+    .opcode(wire_IR[6:0]),
+    .rom2_out(rom2_out)
+  );
+
+  isHalt is_halt(
+    .is_ecall(is_ecall),
+    .gpr_17(rs1_dout),
+    .is_halted(is_halted)
+  );
+
+
+
+
+
+
+
+
+
+
 
   // ---------- Immediate Generator ----------
   ImmediateGenerator imm_gen(
