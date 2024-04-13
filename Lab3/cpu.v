@@ -150,6 +150,8 @@ module cpu(input reset,       // positive reset signal
   // ---------- Control Unit ----------
   ControlUnit ctrl_unit(
     .current_state(current_state), //input: current_state, 이걸로 control signal generate한다. 
+    .opcode(wire_IR[6:0]), //input
+    .x17_val(x17),
     .PCWrite(PCWrite),      // output
     .PCWriteNotCond(PCWriteNotCond), // output
     .IRWrite(IRWrite),      // output
@@ -167,9 +169,10 @@ module cpu(input reset,       // positive reset signal
 
 
 
-  nextStateAdder next_state_adder(    //current state가 바뀌는 즉시 get next state
+  nextStateGet next_state_get(    //current state가 바뀌는 즉시 get next state
     .current_state(current_state),  // input
     .reset(reset),  // input
+    .opcode(wire_IR[6:0]), //input
     .next_state(next_state)  // output
   );
 
@@ -181,21 +184,8 @@ module cpu(input reset,       // positive reset signal
   );
 
 
-  rom1 rom_1(
-    .opcode(wire_IR[6:0]),
-    .rom1_out(rom1_out)
-  );
 
-  rom2 rom_2(
-    .opcode(wire_IR[6:0]),
-    .rom2_out(rom2_out)
-  );
 
-  isHalt is_halt(
-    .is_ecall(is_ecall),
-    .gpr_17(rs1_dout),
-    .is_halted(is_halted)
-  );
 
 
 

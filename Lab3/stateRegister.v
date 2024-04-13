@@ -12,3 +12,4 @@ module stateRegister(input clk,
        
     end
 endmodule
+

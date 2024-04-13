@@ -2,10 +2,135 @@
 `include "states.v"
 
 module ControlUnit(
-    input [6:0] opcode,  // input
-    input reg [31:0] x17_val,
-    input clk,
-    input reset,
+    input [3:0] current_state,  // input
+    input [6:0] opcode, //input
+    input [31:0] x17_val,
+    output reg PCWrite,      // output
+    output reg PCWriteNotCond, // output
+    output reg IRWrite,      // output
+    output reg [1:0] ALUCtrlOp,    // output
+    output reg mem_read,      // output
+    output reg mem_to_reg,    // output
+    output reg mem_write,     // output
+    output reg alu_srcA,       // output
+    output reg [1:0] alu_srcB,       // output
+    output reg RegWrite,     // output
+    //output reg [1:0] PCSource,      // output 
+    output reg PCSource,
+    output reg IorD,        // output
+    output reg is_ecall       // output (ecall inst)
+);
+    // Control signal
+    always @(*) begin
+        PCWrite = 0;
+        mem_read = 0;
+        mem_write = 0;
+        IRWrite = 0;
+        ALUCtrlOp = 2'b00;
+        mem_to_reg = 0;
+        alu_srcA = 0;
+        alu_srcB = 2'b00;
+        RegWrite = 0;
+        //PCSource = 2'b00;
+        PCSource = 0;
+        IorD = 0;
+ 
+        
+        case (current_state)
+            `IF1: begin
+                PCWrite = 1;
+                mem_read = 1;
+                mem_write = 1;
+            end
+            `IF2: begin
+                PCWrite = 1;
+                mem_read = 1;
+                mem_write = 1;
+            end
+            `IF3: begin
+                PCWrite = 1;
+                mem_read = 1;
+                mem_write = 1;
+            end
+            `IF4: begin
+                PCWrite = 1;
+                mem_read = 1;
+                mem_write = 1;
+            end
+            `ID: begin
+                IRWrite = 1;
+                alu_srcA = 1;
+                alu_srcB = 2'b01;
+                RegWrite = 1;
+            end
+            `EX1: begin
+                ALUCtrlOp = 2'b00;
+                alu_srcB = 2'b10;
+                //PCSource = 2'b01;
+                PCSource = 1;
+            end
+            `EX2: begin
+                ALUCtrlOp = 2'b00;
+                alu_srcB = 2'b10;
+                //PCSource = 2'b01;
+                PCSource = 1;
+            end
+            `MEM1: begin
+                mem_write = 1;
+                alu_srcB = 2'b10;
+                //PCSource = 2'b01;
+                PCSource = 1;
+            end
+            `MEM2: begin
+                mem_write = 1;
+                alu_srcB = 2'b10;
+                //PCSource = 2'b01;
+                PCSource = 1;
+            end
+            `MEM3: begin
+                mem_write = 1;
+                alu_srcB = 2'b10;
+                //PCSource = 2'b01;
+                PCSource = 1;
+            end
+            `MEM4: begin
+                mem_write = 1;
+                alu_srcB = 2'b10;
+                //PCSource = 2'b01;
+                PCSource = 1;
+            end
+            `WB: begin
+                RegWrite = 1;
+            end
+
+            default: begin
+                PCWrite = 0;
+                mem_read = 0;
+                mem_write = 0;
+                IRWrite = 0;
+                ALUCtrlOp = 2'b00;
+                mem_to_reg = 0;
+                alu_srcA = 0;
+                alu_srcB = 2'b00;
+                RegWrite = 0;
+                //PCSource = 2'b00;
+                PCSource = 0;
+                IorD = 0;
+            end
+        endcase
+    end
+    
+    
+    always @(*) begin
+        if (opcode == `ECALL && x17_val==10) is_ecall = 1;
+        else is_ecall = 0;
+    end
+
+endmodule
+
+/*
+module ControlUnit(
+    input [3:0] current_state,  // input
     output reg PCWrite,      // output
     output reg PCWriteNotCond, // output
     output reg IRWrite,      // output
@@ -186,3 +311,5 @@ module ControlUnit(
     end
 
 endmodule 
+*/
+
