@@ -5,8 +5,8 @@
 #include <verilated_vcd_c.h>
 
 #include <iostream>
-#include <fstream>
 #include <sstream>
+#include <fstream>
 #include <iomanip>
 #include <stdlib.h>
 #include <string>

@@ -62,11 +62,6 @@ module cpu(input reset,       // positive reset signal
   assign cond2 = cond1 | PCWrite;
 
 
-  wire [3:0] current_state;
-  wire [3:0] next_state;
-  wire [3:0] rom1_out;
-  wire [3:0] rom2_out;
-
   /***** Register declarations *****/
   reg [31:0] IR; // instruction register
   reg [31:0] MDR; // memory data register
@@ -93,17 +88,12 @@ module cpu(input reset,       // positive reset signal
       ALUOut <= 32'b0;
     end
     else begin
-      if(mem_data != 0) begin
-        $display("IRwrite:%d ", IRWrite); // FOR DEBUGGING
-        $display("mem_data:%d ", mem_data); // FOR DEBUGGING
-      end
 
-      MDR <= mem_data;
+      if(IorD) MDR <= mem_data;
       A <= reg_to_A;
       B <= reg_to_B;
       ALUOut <= alu_result;
-      
-      if (IRWrite) begin
+      if ( !IorD &&IRWrite) begin
         IR <= mem_data;
       end
     end
@@ -118,9 +108,18 @@ module cpu(input reset,       // positive reset signal
     .reset(reset),       // input (Use reset to initialize PC. Initial value must be 0)
     .clk(clk),         // input
     .next_pc(next_pc),     // input
-    .pc_write(cond2),    //PC Source mux
+    .pc_write(PCWrite),    //PC Source mux
     .current_pc(current_pc)   // output
   );
+
+  pcMux pc_mux(
+    .alu_out(alu_result),
+    .alu_out_reg(ALUOut),
+    .bcond(bcond),
+    .pc_source(PCSource),
+    .next_pc(next_pc)
+    );
+
 
   // ---------- Register File ----------
   RegisterFile reg_file(
@@ -147,55 +146,27 @@ module cpu(input reset,       // positive reset signal
     .dout(mem_data)          // output
   );
 
+
   // ---------- Control Unit ----------
   ControlUnit ctrl_unit(
-    .current_state(current_state), //input: current_state, 이걸로 control signal generate한다. 
-    .opcode(wire_IR[6:0]), //input
+    .opcode(wire_IR[6:0]),  // input
+    .clk(clk),
+    .reset(reset),
     .x17_val(x17),
-    .PCWrite(PCWrite),      // output
-    .PCWriteNotCond(PCWriteNotCond), // output
-    .IRWrite(IRWrite),      // output
-    .ALUCtrlOp(ALUCtrlOp),    // output
+    .pc_write(PCWrite),      // output
+    .pc_write_cond(PCWriteNotCond), // output
+    .ir_write(IRWrite),      // output
+    .alu_op(ALUCtrlOp),    // output
     .mem_read(MemRead),      // output
     .mem_to_reg(MemToReg),    // output
     .mem_write(MemWrite),     // output
-    .alu_srcA(ALUSrcA),       // output
-    .alu_srcB(ALUSrcB),       // output
-    .RegWrite(RegWrite),     // output
-    .PCSource(PCSource),      // output
-    .IorD(IorD),        // output
+    .alu_src_a(ALUSrcA),       // output
+    .alu_src_b(ALUSrcB),       // output
+    .reg_write(RegWrite),     // output
+    .pc_source(PCSource),      // output
+    .iord(IorD),        // output
     .is_ecall(is_ecall)       // output (ecall inst)
   );
-
-
-
-  nextStateGet next_state_get(    //current state가 바뀌는 즉시 get next state
-    .current_state(current_state),  // input
-    .reset(reset),  // input
-    .opcode(wire_IR[6:0]), //input
-    .next_state(next_state)  // output
-  );
-
-  stateRegister state_register(      //clk마다 current state에 next state 넣기
-    .clk(clk),
-    .reset(reset),
-    .next_state(next_state),
-    .current_state(current_state)
-  );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   // ---------- Immediate Generator ----------
   ImmediateGenerator imm_gen(
@@ -206,6 +177,8 @@ module cpu(input reset,       // positive reset signal
   // ---------- ALU Control Unit ----------
   ALUControlUnit alu_ctrl_unit(
     .instruction(wire_IR),    // input
+    .funct3(wire_IR[14:12]),
+    .funct7(wire_IR[6:0]),
     .alu_ctrl_op(ALUCtrlOp),  // input
     .alu_op(alu_op)         // output
   );

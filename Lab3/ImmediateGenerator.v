@@ -19,7 +19,7 @@ module ImmediateGenerator(
 
         if(opcode == `ARITHMETIC_IMM) begin// I-type instruction opcodes
             imm_gen_out = { {20{instruction[31]}},immediate};  //sign-extend(immediate)
-        
+           //$display("imm_gen_out: %d", imm_gen_out); //! DEBUGGING
         end else if(opcode == `LOAD) begin  // I-type instruction opcodes
             imm_gen_out = { {20{instruction[31]}},immediate};  //sign-extend(immediate)
 

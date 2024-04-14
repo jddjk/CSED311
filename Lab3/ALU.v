@@ -27,10 +27,22 @@ end
 	YOUR ALU FUNCTIONALITY IMPLEMENTATION...
 */
 	always @(alu_in_1, alu_in_2, alu_op) begin
+	
+
+		//if (alu_in_2!=0)$display("alu_in_2: %d", alu_in_2); //! DEBUGGING
+		//if (alu_in_2!=0)$display("alu_op: %d", alu_op); //! DEBUGGING
 		
 		case(alu_op)
+
 			`FUNC_JALR: alu_result <= (alu_in_1 + alu_in_2)&32'hfffffffe;
-			`FUNC_ADD: alu_result <= alu_in_1 + alu_in_2;
+			`FUNC_ADD: begin 
+			
+			alu_result <= alu_in_1 + alu_in_2;
+			//if (alu_in_1!=0)$display("alu_in_1: %d", alu_in_1); //! DEBUGGING
+
+			
+			end
+
 			`FUNC_XOR: alu_result <= alu_in_1 ^ alu_in_2;
 			`FUNC_OR: alu_result <= alu_in_1 | alu_in_2;
 			`FUNC_AND: alu_result <= alu_in_1 & alu_in_2;
