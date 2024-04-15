@@ -203,7 +203,7 @@ module ControlUnit(
 
 
     always @(*) begin
-        if(current_state!=0 && current_state !=1)$display("current_state: %d", current_state); //! DEBUGGING
+        //if(current_state!=0 && current_state !=1)$display("current_state: %d", current_state); //! DEBUGGING
             pc_write_cond = 0;
             pc_write = 0; //!
             iord = 0;
@@ -348,8 +348,8 @@ module ControlUnit(
                 ir_write = 0;
                 mem_to_reg = 0;
                 reg_write = 0;
-                alu_src_a = 0;
-                alu_src_b = 2'b10;
+                alu_src_a = 1;
+                alu_src_b = 2'b00;
                 alu_op = 2'b11;
                 pc_source = 0;
                 is_ecall = 0;
@@ -475,10 +475,14 @@ module ControlUnit(
         end
 
     end
-
+/*
     always @(*) begin
-        if (opcode == `ECALL && x17_val==10) is_ecall = 1;
+        if (opcode == `ECALL) begin
+            is_ecall = 1;
+
+        end
+
         else is_ecall = 0;
-    end
+    end*/
 
 endmodule 

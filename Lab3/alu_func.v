@@ -12,4 +12,4 @@
 `define FUNC_BNE    4'b1101
 `define FUNC_BEQ    4'b1110
 `define FUNC_JALR   4'b1111
-
+`define FUNC_NOT   4'b0001

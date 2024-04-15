@@ -9,7 +9,13 @@ module ALUControlUnit (
     output reg [3:0] alu_op // by alu_control_unit
 );
 
-    
+        /* 
+    alu_op
+        00 : LW, STORE, nextPC
+        01 : R/I type
+        10 : JAL, JALR type
+        11 : Bxx type
+    */
     always @(*) begin
         alu_op = `FUNC_ADD;
 
@@ -17,12 +23,14 @@ module ALUControlUnit (
             alu_op = `FUNC_ADD;
 
         end else if (alu_ctrl_op == 2'b01) begin
+            //$display(" 01 : R/I type"); //! DEBUGGING
+             //$display(" instruction: %h",instruction); //! DEBUGGING
             if (funct3 == `FUNCT3_ADD && funct7 != `FUNCT7_SUB) begin
                 alu_op = `FUNC_ADD; // Addition
 
             end else if (funct3 == `FUNCT3_SUB && funct7 == `FUNCT7_SUB) begin
                 alu_op = `FUNC_SUB; // Subtraction
-
+                //$display(" Subb"); //! DEBUGGING
 
             end else if (funct3 == `FUNCT3_SLL) begin
                 alu_op = `FUNC_SLL; // Logical Left Shift
@@ -41,7 +49,7 @@ module ALUControlUnit (
             end else begin  end
 
         end else if (alu_ctrl_op == 2'b10) begin
-            if (funct7 == `JALR) begin
+            if (instruction[6:0] == `JALR) begin
                 alu_op = `FUNC_JALR; // JALR
             end else begin
                 alu_op = `FUNC_ADD; // JAL
@@ -59,7 +67,10 @@ module ALUControlUnit (
 
             end else if (funct3 == `FUNCT3_BGE) begin
                 alu_op = `FUNC_BGE; // BGE
-            end else begin  end
+            end else begin 
+                
+
+             end
         end else begin  end
     end
     

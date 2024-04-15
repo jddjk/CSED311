@@ -16,12 +16,20 @@ module RegisterFile(input	reset,
   assign rs1_dout = rf[rs1];
   assign rs2_dout = rf[rs2];
   always @(*)begin
-    if(rd !=0) begin
+    if(rd==14) begin
       
-      $display("rd: %d", rd); //! DEBUGGING
+      //$display("rf[14]: %d", rf[14]); //! DEBUGGING
+      //$display("rf[17]: %d", rf[17]); //! DEBUGGING
+      //$display("rd_din: %d", rd_din); //! DEBUGGING
 
     end
+    if(rd==15) begin
+      
+      //$display("rf[15]: %d", rf[15]); //! DEBUGGING
+      //$display("rf[17]: %d", rf[17]); //! DEBUGGING
+      //$display("rd_din: %d", rd_din); //! DEBUGGING
 
+    end
     //if(rd !=0)  $display("rd:  %d", rd); //! DEBUGGING
 
   end

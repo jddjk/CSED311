@@ -36,6 +36,8 @@ module cpu(input reset,       // positive reset signal
   wire [31:0] wire_B;
   wire [31:0] wire_ALUOut;
 
+  wire [4:0] rs1_in;
+
   // Control signals
   wire [3:0] alu_op;
   wire [1:0] ALUCtrlOp;
@@ -90,6 +92,8 @@ module cpu(input reset,       // positive reset signal
     else begin
 
       if(IorD) MDR <= mem_data;
+      //if(reg_to_A!=0)$display("reg_to_A: %d", reg_to_A); //! DEBUGGING
+      //if(reg_to_B!=0)$display("reg_to_A: %d", reg_to_B); //! DEBUGGING
       A <= reg_to_A;
       B <= reg_to_B;
       ALUOut <= alu_result;
@@ -112,20 +116,14 @@ module cpu(input reset,       // positive reset signal
     .current_pc(current_pc)   // output
   );
 
-  pcMux pc_mux(
-    .alu_out(alu_result),
-    .alu_out_reg(ALUOut),
-    .bcond(bcond),
-    .pc_source(PCSource),
-    .next_pc(next_pc)
-    );
+
 
 
   // ---------- Register File ----------
   RegisterFile reg_file(
     .reset(reset),        // input
     .clk(clk),          // input
-    .rs1 (wire_IR[19:15]),          // input
+    .rs1 (rs1_in),          // input
     .rs2 (wire_IR[24:20]),          // input
     .rd (wire_IR[11:7]),           // input
     .rd_din(RegSource),       // input
@@ -178,7 +176,7 @@ module cpu(input reset,       // positive reset signal
   ALUControlUnit alu_ctrl_unit(
     .instruction(wire_IR),    // input
     .funct3(wire_IR[14:12]),
-    .funct7(wire_IR[6:0]),
+    .funct7(wire_IR[31:25]),
     .alu_ctrl_op(ALUCtrlOp),  // input
     .alu_op(alu_op)         // output
   );
@@ -213,21 +211,7 @@ module cpu(input reset,       // positive reset signal
     .sel(ALUSrcA),
     .out(ALUSrcAout)
   );
- 
-
- // for PCSource
- // needs to be changed from mux2to1 to mux3to1(maybe)
- // 00 -> PC + 4
- // 01 -> branch
- // 10 -> jump
-  mux2to1 ALUOutmux (
-    .in0(alu_result),
-    .in1(ALUOut),
-    .sel(PCSource),
-    .out(PCSrcWire)
-  );
-
-  //ALUSrcB
+   //ALUSrcB
   mux3to1 ALUSourceBmux (
     .in0(B),
     .in1(32'b100),
@@ -236,5 +220,29 @@ module cpu(input reset,       // positive reset signal
     .out(ALUSrcBout)
   );
 
+
+  pcMux pc_mux(
+    .alu_out(alu_result),
+    .alu_out_reg(ALUOut),
+    .bcond(bcond),
+    .pc_source(PCSource),
+    .next_pc(next_pc)
+    );
+
+
+
+
+  RS1_MUX rs1_mux(
+    .rs1(wire_IR[19:15]),
+    .is_ecall(is_ecall),
+    .rs1_in(rs1_in)
+  );
+
+  halt halt(
+    .is_ecall(is_ecall),
+    .gpr_17(reg_to_A),
+    .is_halted(is_halted)
+
+  );
 
 endmodule

@@ -5,8 +5,8 @@
 #include <verilated_vcd_c.h>
 
 #include <iostream>
-#include <sstream>
 #include <fstream>
+#include <sstream>
 #include <iomanip>
 #include <stdlib.h>
 #include <string>
@@ -29,7 +29,13 @@ void next_cycle(Vtop* dut, VerilatedVcdC* m_trace) {
 
 int main(int argc, char** argv, char** env) {
     // TO DO : CHANGE "filename" TO PROVIDED "answer_*.txt" PATH
-    string filename = "./student_tb/answer_basic.txt";
+    
+    //string filename = "./student_tb/answer_recursive.txt";
+    //string filename = "./student_tb/answer_loop.txt";
+
+    string filename = "./student_tb/answer_ifelse.txt";
+    //string filename = "./student_tb/answer_basic.txt";
+    //string filename = "./student_tb/answer_non-controlflow.txt";
     ifstream file(filename);
     stringstream ss;
     string reg_hex;
