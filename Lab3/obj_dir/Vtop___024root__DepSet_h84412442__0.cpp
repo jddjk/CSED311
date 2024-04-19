@@ -32,24 +32,16 @@ void Vtop___024root___eval_triggers__act(Vtop___024root* vlSelf) {
     Vtop__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
     VL_DEBUG_IF(VL_DBG_MSGF("+    Vtop___024root___eval_triggers__act\n"); );
     // Body
-    vlSelf->__VactTriggered.set(0U, ((IData)(vlSelf->clk) 
+    vlSelf->__VactTriggered.set(0U, ((IData)(vlSelf->top__DOT__cpu__DOT__bcond) 
+                                     != (IData)(vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__bcond__1)));
+    vlSelf->__VactTriggered.set(1U, ((IData)(vlSelf->clk) 
                                      & (~ (IData)(vlSelf->__Vtrigprevexpr___TOP__clk__0))));
-    vlSelf->__VactTriggered.set(1U, (((vlSelf->top__DOT__cpu__DOT__ALUSrcAout 
-                                       != vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__ALUSrcAout__0) 
-                                      | (vlSelf->top__DOT__cpu__DOT__ALUSrcBout 
-                                         != vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__ALUSrcBout__0)) 
-                                     | ((IData)(vlSelf->top__DOT__cpu__DOT__alu_op) 
-                                        != (IData)(vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0))));
+    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__bcond__1 
+        = vlSelf->top__DOT__cpu__DOT__bcond;
     vlSelf->__Vtrigprevexpr___TOP__clk__0 = vlSelf->clk;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__ALUSrcAout__0 
-        = vlSelf->top__DOT__cpu__DOT__ALUSrcAout;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__ALUSrcBout__0 
-        = vlSelf->top__DOT__cpu__DOT__ALUSrcBout;
-    vlSelf->__Vtrigprevexpr___TOP__top__DOT__cpu__DOT__alu_op__0 
-        = vlSelf->top__DOT__cpu__DOT__alu_op;
     if (VL_UNLIKELY((1U & (~ (IData)(vlSelf->__VactDidInit))))) {
         vlSelf->__VactDidInit = 1U;
-        vlSelf->__VactTriggered.set(1U, 1U);
+        vlSelf->__VactTriggered.set(0U, 1U);
     }
 #ifdef VL_DEBUG
     if (VL_UNLIKELY(vlSymsp->_vm_contextp__->debug())) {

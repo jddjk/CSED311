@@ -1,10 +1,11 @@
 module Memory #(parameter MEM_DEPTH = 16384) (input reset,
                                               input clk,
-                                              input [31:0] addr,    // address of the memory
-                                              input [31:0] din,     // data to be written
-                                              input mem_read,       // is read signal driven?
-                                              input mem_write,      // is write signal driven?
-                                              output [31:0] dout);  // output of the data memory at addr
+                                              input [31:0] addr,
+                                              input [31:0] din,
+                                              input mem_read,
+                                              input mem_write,
+                                              output [31:0] dout
+                                              );
   integer i;
   // Memory
   reg [31:0] mem[0: MEM_DEPTH - 1];
@@ -25,7 +26,11 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
         /* verilator lint_on BLKSEQ */
         // DO NOT TOUCH COMMENT ABOVE
       // Provide path of the file including instructions with binary format
-      $readmemh("./student_tb/basic_mem.txt", mem);
+      //$readmemh("./student_tb/basic_mem.txt", mem);
+      //$readmemh("./student_tb/ifelse_mem.txt", mem);
+      //$readmemh("./student_tb/loop_mem.txt", mem);
+      //$readmemh("./student_tb/non-controlflow_mem.txt", mem);
+      $readmemh("./student_tb/recursive_mem.txt", mem);
     end
 
     // Synchronously write data to the memory
@@ -34,4 +39,4 @@ module Memory #(parameter MEM_DEPTH = 16384) (input reset,
         mem[mem_addr] <= din;
     end
   end
-endmodule 
+endmodule

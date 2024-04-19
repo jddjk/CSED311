@@ -1,181 +1,332 @@
 `include "opcodes.v"
-`include "states.v"
+
+// instruction fetch
+`define IF          4'b0000
+
+// instruction decode
+`define ID          4'b0001
+
+// execution
+`define EX_LW       4'b0010
+`define EX_SW       4'b0011
+`define EX_R        4'b0100
+`define EX_JAL      4'b0101
+`define EX_JALR     4'b0110
+`define EX_BRANCH1   4'b0111
+`define EX_BRANCH2  4'b1000
+
+// memory access
+`define MEM_LW      4'b1001
+`define MEM_SW      4'b1010
+
+// write back
+`define WB_R        4'b1011
+`define WB_LW       4'b1100
+`define WB_I        4'b1101
+`define WB_JALR     4'b1110
+
+// ecall
+`define EC          4'b1111
+
 
 module ControlUnit(
-    input [6:0] opcode,  // input
-    input reg [31:0] x17_val,
+    input [6:0] opcode,
     input clk,
     input reset,
-    output reg PCWrite,      // output
-    output reg PCWriteNotCond, // output
-    output reg IRWrite,      // output
-    output reg [1:0] ALUCtrlOp,    // output
-    output reg mem_read,      // output
-    output reg mem_to_reg,    // output
-    output reg mem_write,     // output
-    output reg alu_srcA,       // output
-    output reg [1:0] alu_srcB,       // output
-    output reg RegWrite,     // output
-    //output reg [1:0] PCSource,      // output 
+    input bcond,
+    output reg [1:0] ALUop,
+    output reg [1:0] alu_src_B,
+    output reg alu_src_A,
+    output reg PCWriteNotCond,
+    output reg PC_Write,
+    output reg MemRead,
+    output reg MemWrite,
+    output reg MemToReg,
+    output reg IorD,
+    output reg IRWrite,
     output reg PCSource,
-    output reg IorD,        // output
-    output reg is_ecall       // output (ecall inst)
+    output reg reg_write,
+    output reg is_ecall
 );
-    reg [3:0] current_state, next_state;
 
-    // State transition logic
+    reg [3:0] current_state;
+    wire [3:0] next_state;
+
+    assign current_state =  4'b0000;
+
     always @(posedge clk) begin
-        if (reset) current_state <= `IF1;
-        else current_state <= next_state;
+        if (!reset) begin
+            current_state <= next_state;
+        end
+        else begin
+            current_state <= 4'b0000;
+        end
     end
 
-    always @(*) begin
-        case (current_state)
-            `IF1: next_state = `IF2;
-            `IF2: next_state = `IF3;
-            `IF3: next_state = `IF4;
-            `IF4: begin
-                next_state = (opcode == `JAL) ? `EX1 : `ID;
-            end 
-            `ID: next_state = `EX1;
-            `EX1: next_state = `EX2;
-            `EX2: begin
-                case(opcode)
-                    `LOAD: next_state = `MEM1;
-                    `STORE: next_state = `MEM1;
-                    `BRANCH: next_state = `IF1;
-                    `ARITHMETIC: next_state = `WB;
-                    `ARITHMETIC_IMM: next_state = `WB;
-                    `JALR: next_state = `WB;
-                    `JAL: next_state = `WB;
-                    default: next_state = `WB;
-                endcase
-            end 
-            `MEM1: next_state = `MEM2;
-            `MEM2: next_state = `MEM3;
-            `MEM3: next_state = `MEM4;
-            `MEM4: begin
-                case(opcode)
-                    `LOAD: next_state = `WB;
-                    `STORE: next_state = `IF1;
-                    default: next_state = `WB;
-                endcase
-            end
-            `WB: begin
-                case(opcode)
-                    `LOAD: next_state = `IF1;
-                    `ARITHMETIC: next_state = `IF1;
-                    `ARITHMETIC_IMM: next_state = `IF1;
-                    `JALR: next_state = `IF1;
-                    `JAL: next_state = `IF1;
-                    default: next_state = `IF1;
-                endcase
-            end
-            default: next_state = `IF1;
-        endcase
-    end
-
-    // Control signal
-    always @(*) begin
-        PCWrite = 0;
-        mem_read = 0;
-        mem_write = 0;
-        IRWrite = 0;
-        ALUCtrlOp = 2'b00;
-        mem_to_reg = 0;
-        alu_srcA = 0;
-        alu_srcB = 2'b00;
-        RegWrite = 0;
-        //PCSource = 2'b00;
-        PCSource = 0;
+    initial begin
+        PCWriteNotCond = 0;
+        PC_Write = 0;
         IorD = 0;
-
-        case (current_state)
-            `IF1: begin
-                PCWrite = 1;
-                mem_read = 1;
-                mem_write = 1;
-            end
-            `IF2: begin
-                PCWrite = 1;
-                mem_read = 1;
-                mem_write = 1;
-            end
-            `IF3: begin
-                PCWrite = 1;
-                mem_read = 1;
-                mem_write = 1;
-            end
-            `IF4: begin
-                PCWrite = 1;
-                mem_read = 1;
-                mem_write = 1;
-            end
-            `ID: begin
-                IRWrite = 1;
-                alu_srcA = 1;
-                alu_srcB = 2'b01;
-                RegWrite = 1;
-            end
-            `EX1: begin
-                ALUCtrlOp = 2'b00;
-                alu_srcB = 2'b10;
-                //PCSource = 2'b01;
-                PCSource = 1;
-            end
-            `EX2: begin
-                ALUCtrlOp = 2'b00;
-                alu_srcB = 2'b10;
-                //PCSource = 2'b01;
-                PCSource = 1;
-            end
-            `MEM1: begin
-                mem_write = 1;
-                alu_srcB = 2'b10;
-                //PCSource = 2'b01;
-                PCSource = 1;
-            end
-            `MEM2: begin
-                mem_write = 1;
-                alu_srcB = 2'b10;
-                //PCSource = 2'b01;
-                PCSource = 1;
-            end
-            `MEM3: begin
-                mem_write = 1;
-                alu_srcB = 2'b10;
-                //PCSource = 2'b01;
-                PCSource = 1;
-            end
-            `MEM4: begin
-                mem_write = 1;
-                alu_srcB = 2'b10;
-                //PCSource = 2'b01;
-                PCSource = 1;
-            end
-            `WB: begin
-                RegWrite = 1;
-            end
-            default: begin
-                PCWrite = 0;
-                mem_read = 0;
-                mem_write = 0;
-                IRWrite = 0;
-                ALUCtrlOp = 2'b00;
-                mem_to_reg = 0;
-                alu_srcA = 0;
-                alu_srcB = 2'b00;
-                RegWrite = 0;
-                //PCSource = 2'b00;
-                PCSource = 0;
-                IorD = 0;
-            end
-        endcase
+        MemRead = 0;
+        MemWrite = 0;
+        MemToReg = 0;
+        IRWrite = 0;
+        PCSource = 0;
+        ALUop = 0;
+        alu_src_B = 0;
+        alu_src_A = 0;
+        reg_write = 0;
     end
-    
+
     always @(*) begin
-        if (opcode == `ECALL) is_ecall = 1;
-        else is_ecall = 0;
+        PCWriteNotCond = 0;
+        PC_Write = 0;
+        IorD = 0;
+        MemRead = 0;
+        MemWrite = 0;
+        MemToReg = 0;
+        IRWrite = 0;
+        PCSource = 0;
+        ALUop = 0;
+        alu_src_B = 0;
+        alu_src_A = 0;
+        reg_write = 0;
+
+        if (current_state == `IF) begin
+            IorD = 0;
+            MemRead = 1;
+            IRWrite = 1;
+            PCWriteNotCond = 0;
+            PC_Write = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            PCSource = 0;
+            ALUop = 0;
+            alu_src_B = 0;
+            alu_src_A = 0;
+            reg_write = 0;
+        end else if (current_state == `ID) begin
+            ALUop = 2'b00;
+            alu_src_B = 2'b01;
+            alu_src_A = 0;
+            PCWriteNotCond = 0;
+            PC_Write = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            PCSource = 0;
+            reg_write = 0;
+        end else if (current_state == `EX_R) begin
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            ALUop = 2'b10;
+            alu_src_B = 2'b00;
+            alu_src_A = 1;
+            PCWriteNotCond = 0;
+            PC_Write = 0;
+            PCSource = 0;
+            reg_write = 0;
+        end else if (current_state == `EX_LW) begin
+            ALUop = 2'b00;
+            MemToReg = 0;
+            IRWrite = 0;
+            PCSource = 0;
+            reg_write = 0;
+            alu_src_B = 2'b10;
+            alu_src_A = 1;
+            PCWriteNotCond = 0;
+            PC_Write = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+        end else if (current_state == `EX_BRANCH1) begin
+            PCWriteNotCond = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            PCSource = 1;
+            ALUop = 2'b01;
+            alu_src_B = 2'b00;
+            alu_src_A = 1;
+            reg_write = 0;
+            if (bcond) begin
+                PC_Write = 0;
+            end else begin
+                PC_Write = 1;
+            end
+        end else if (current_state == `EX_SW) begin
+            ALUop = 2'b00;
+            alu_src_B = 2'b10;
+            alu_src_A = 1;
+            PCWriteNotCond = 0;
+            PC_Write = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            PCSource = 0;
+            reg_write = 0;
+        end else if (current_state == `EX_JAL) begin
+            PC_Write = 1;
+            MemToReg = 0;
+            PCSource = 0;
+            ALUop = 2'b00;
+            alu_src_B = 2'b10;
+            alu_src_A = 0;
+            reg_write = 1;
+            PCWriteNotCond = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            IRWrite = 0;
+        end else if (current_state == `EX_JALR) begin
+            PC_Write = 1;
+            MemToReg = 1;
+            PCSource = 0;
+            ALUop = 2'b00;
+            alu_src_B = 2'b10;
+            alu_src_A = 1;
+            reg_write = 1;
+            PCWriteNotCond = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            IRWrite = 0;
+        end else if (current_state == `WB_R) begin
+            PC_Write = 1;
+            MemToReg = 0;
+            PCSource = 0;
+            ALUop = 2'b00;
+            alu_src_B = 2'b01;
+            alu_src_A = 0;
+            reg_write = 1;
+            PCWriteNotCond = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            IRWrite = 0;
+        end else if (current_state == `MEM_LW) begin
+            IorD = 1;
+            MemRead = 1;
+            PCWriteNotCond = 0;
+            PC_Write = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            PCSource = 0;
+            ALUop = 0;
+            alu_src_B = 0;
+            alu_src_A = 0;
+            reg_write = 0;
+        end else if (current_state == `MEM_SW) begin
+            PC_Write = 1;
+            IorD = 1;
+            MemWrite = 1;
+            PCSource = 0;
+            ALUop = 2'b00;
+            alu_src_B = 2'b01;
+            alu_src_A = 0;
+            PCWriteNotCond = 0;
+            MemRead = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            reg_write = 0;
+        end else if (current_state == `EX_BRANCH2) begin
+            PC_Write = 1;
+            PCSource = 0;
+            ALUop = 2'b00;
+            alu_src_B = 2'b10;
+            alu_src_A = 0;
+            PCWriteNotCond = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            reg_write = 0;
+        end else if (current_state == `WB_LW) begin
+            PC_Write = 1;
+            MemToReg = 1;
+            PCSource = 0;
+            ALUop = 2'b00;
+            alu_src_B = 2'b01;
+            alu_src_A = 0;
+            reg_write = 1;
+            PCWriteNotCond = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            IRWrite = 0;
+        end else if (current_state == `WB_I) begin
+            ALUop = 2'b10;
+            alu_src_B = 2'b10;
+            alu_src_A = 1;
+            PCWriteNotCond = 0;
+            PC_Write = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            PCSource = 0;
+            reg_write = 0;
+        end else if (current_state == `EC) begin
+            PC_Write = 1;
+            PCSource = 0;
+            ALUop = 2'b00;
+            alu_src_B = 2'b01;
+            alu_src_A = 0;
+            PCWriteNotCond = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            reg_write = 0;
+        end else if (current_state == `WB_JALR) begin
+            PC_Write = 1;
+            MemToReg = 0;
+            PCSource = 1;
+            ALUop = 2'b00;
+            alu_src_B = 2'b01;
+            alu_src_A = 0;
+            reg_write = 1;
+            PCWriteNotCond = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            IRWrite = 0;
+        end else begin
+            PC_Write = 0;
+            PCWriteNotCond = 0;
+            IorD = 0;
+            MemRead = 0;
+            MemWrite = 0;
+            MemToReg = 0;
+            IRWrite = 0;
+            PCSource = 0;
+            ALUop = 0;
+            alu_src_B = 0;
+            alu_src_A = 0;
+            reg_write = 0;
+        end
     end
 
-endmodule 
+    assign is_ecall = (opcode == `ECALL);
+
+    MicroSequencer MicroSequencer(
+        .opcode(opcode),
+        .current_state(current_state),
+        .bcond(bcond),
+        .next_state(next_state)
+    );
+
+endmodule

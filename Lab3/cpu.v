@@ -11,217 +11,205 @@
 module cpu(input reset,       // positive reset signal
            input clk,         // clock signal
            output is_halted,
-           output [31:0]print_reg[0:31]
-           ); // Whehther to finish simulation
+          output [31:0]print_reg[0:31]);
   /***** Wire declarations *****/
-  wire [31:0] mem_addr;
-  wire [31:0] mem_data;
   wire [31:0] next_pc;
   wire [31:0] current_pc;
-  wire [31:0] ALUSrcAout;
-  wire [31:0] ALUSrcBout;
-  wire [31:0] RegSource;
-  wire [31:0] alu_result;
-  //wire [31:0] rs1_data;
-  //wire [31:0] rs2_data;
-  wire [31:0] imm_gen_out; // 64-bit?
-  wire [31:0] PCSrcWire;
-  wire [31:0] x17;
-  wire [31:0] reg_to_A;
-  wire [31:0] reg_to_B;
-
-  wire [31:0] wire_IR;
-  wire [31:0] wire_MDR;
-  wire [31:0] wire_A;
-  wire [31:0] wire_B;
-  wire [31:0] wire_ALUOut;
-
-  // Control signals
-  wire [3:0] alu_op;
-  wire [1:0] ALUCtrlOp;
-  wire MemToReg;
-  wire MemWrite;
+  wire [31:0] ALUResult;
+  wire [31:0] imm_gen_out;
+  wire [31:0] rs1_dout;
+  wire [31:0] rs2_dout;
+  wire [31:0] instruction;
+  wire [31:0] MemAddr;
+  wire [31:0] adder_out;
+  wire [31:0] dout;
+  wire [31:0] in_1_ALU;
+  wire [31:0] in_2_ALU;
+  wire [31:0] rd_din;
+  wire [4:0] rs1_in;
+  wire [4:0] rs2_in;
+  wire [4:0] rd;
   wire MemRead;
+  wire MemWrite;
+  wire MemToReg;
   wire PCWrite;
-  wire PCWriteNotCond;
-  //wire [1:0]PCSource;
-  wire PCSource;
-  wire ALUOp;
-  wire [1:0] ALUSrcB;
-  wire ALUSrcA;
-  wire RegWrite;
-  wire RegSoruce;
-  wire bcond;
-  wire cond1;
-  wire cond2;
-  wire IorD;
+  wire write_enable;
   wire IRWrite;
+  wire [6:0] opcode;
+  wire IorD;
+  wire [1:0] ALUop;
+  wire [1:0] alu_src_B;
+  wire alu_src_A;
+  wire PC_Write;
+  wire PCWriteNotCond;
+  wire PCSource;
   wire is_ecall;
+  wire cond;
+  wire halted;
 
-  assign cond1 = !bcond & PCWriteNotCond;
-  assign cond2 = cond1 | PCWrite;
+  wire [2:0] ALUCtrlOp;
+  wire [2:0] FUNCT;
 
+  /* verilator lint_off UNOPTFLAT */
+  wire bcond;
+  /* verilator lint_on UNOPTFLAT */
 
   /***** Register declarations *****/
-  reg [31:0] IR; // instruction register
-  reg [31:0] MDR; // memory data register
-  reg [31:0] A; // Read 1 data register
-  reg [31:0] B; // Read 2 data register
-  reg [31:0] ALUOut; // ALU output register
-
-  reg [31:0] x17_val; // x17 register value
+  reg [31:0] IR;
+  reg [31:0] MDR;
+  reg [31:0] A;
+  reg [31:0] B;
+  reg [31:0] ALUOut;
   // Do not modify and use registers declared above.
-  assign wire_IR = IR;
-  assign wire_MDR = MDR;
-  assign wire_A = A;
-  assign wire_B = B;
-  assign wire_ALUOut = ALUOut;
-  assign x17 = x17_val;
-  
-  // ---------- Fetching ----------
+  assign PCWrite = (cond | PC_Write);
+  assign instruction = IR;
+  assign opcode = instruction[6:0];
+  assign halted = rs1_dout == 10;
+  assign rs1_in = is_ecall ? 17 : instruction[19:15];
+  assign rs2_in = instruction[24:20];
+  assign rd = instruction[11:7];
+  assign FUNCT = instruction[14:12];
+  assign cond = PCWriteNotCond & !bcond;
+  assign is_halted = (halted && is_ecall);
+
+
   always @(posedge clk) begin
     if (reset) begin
-      IR <= 32'b0;
-      MDR <= 32'b0;
-      A <= 32'b0;
-      B <= 32'b0;
-      ALUOut <= 32'b0;
-    end
-    else begin
-      MDR <= mem_data;
-      A <= reg_to_A;
-      B <= reg_to_B;
-      ALUOut <= alu_result;
-      if (IRWrite) begin
-        IR <= mem_data;
-      end
+      IR <= 0;
+      MDR <= 0;
+      A <= 0;
+      B <= 0;
+      ALUOut <= 0;
+    end else begin
+      if (IRWrite) IR <= dout; // Update Instruction Register
+      MDR <= dout;             // Update Memory Data Register
+      A <= rs1_dout;           // Update register A with rs1 data
+      B <= rs2_dout;           // Update register B with rs2 data
+      ALUOut <= ALUResult;    // Update ALU Output register
     end
   end
-
-
-
-
-  // ---------- Update program counter ----------
-  // PC must be updated on the rising edge (positive edge) of the clock.
-  PC pc(
-    .reset(reset),       // input (Use reset to initialize PC. Initial value must be 0)
+  
+  PC PC(
+    .reset(reset),
     .clk(clk),         // input
+    .PCWrite(PCWrite),
     .next_pc(next_pc),     // input
-    .pc_write(cond2),    //PC Source mux
     .current_pc(current_pc)   // output
   );
-
-  // ---------- Register File ----------
-  RegisterFile reg_file(
-    .reset(reset),        // input
-    .clk(clk),          // input
-    .rs1 (wire_IR[19:15]),          // input
-    .rs2 (wire_IR[24:20]),          // input
-    .rd (wire_IR[11:7]),           // input
-    .rd_din(RegSource),       // input
-    .write_enable(RegWrite),    // input
-    .rs1_dout(reg_to_A),     // output
-    .rs2_dout(reg_to_B),      // output
-    .print_reg(print_reg)     // output (TO PRINT REGISTER VALUES IN TESTBENCH)
-  );
-
-  // ---------- Memory ----------
-  Memory memory(
-    .reset(reset),        // input
-    .clk(clk),          // input
-    .addr(mem_addr),         // input
-    .din(B),          // input
-    .mem_read(MemRead),     // input
-    .mem_write(MemWrite),    // input
-    .dout(mem_data)          // output
-  );
-
-  // ---------- Control Unit ----------
-  ControlUnit ctrl_unit(
-    .opcode(wire_IR[6:0]),  // input
-    .clk(clk),
-    .reset(reset),
-    .x17_val(x17),
-    .PCWrite(PCWrite),      // output
-    .PCWriteNotCond(PCWriteNotCond), // output
-    .IRWrite(IRWrite),      // output
-    .ALUCtrlOp(ALUCtrlOp),    // output
-    .mem_read(MemRead),      // output
-    .mem_to_reg(MemToReg),    // output
-    .mem_write(MemWrite),     // output
-    .alu_srcA(ALUSrcA),       // output
-    .alu_srcB(ALUSrcB),       // output
-    .RegWrite(RegWrite),     // output
-    .PCSource(PCSource),      // output
-    .IorD(IorD),        // output
-    .is_ecall(is_ecall)       // output (ecall inst)
-  );
-
-  // ---------- Immediate Generator ----------
-  ImmediateGenerator imm_gen(
-    .instruction(wire_IR),  // input
+  
+  ImmediateGenerator ImmediateGenerator(
+    .instruction(instruction),  // input
     .imm_gen_out(imm_gen_out)    // output
   );
 
-  // ---------- ALU Control Unit ----------
-  ALUControlUnit alu_ctrl_unit(
-    .instruction(wire_IR),    // input
-    .alu_ctrl_op(ALUCtrlOp),  // input
-    .alu_op(alu_op)         // output
+  RegisterFile RegisterFile(
+    .reset(reset),        // input
+    .clk(clk),          // input
+    .rs1(rs1_in),          // input
+    .rs2(rs2_in),          // input
+    .rd(rd),           // input
+    .rd_din(rd_din),       // input
+    .write_enable(write_enable),    // input
+    .rs1_dout(rs1_dout),     // output
+    .rs2_dout(rs2_dout),      // output
+    .print_reg(print_reg)     // output (TO PRINT REGISTER VALUES IN TESTBENCH)
   );
 
-  // ---------- ALU ----------
-  ALU alu(
-    .alu_op(alu_op),      // input
-    .alu_in_1(ALUSrcAout),    // input  
-    .alu_in_2(ALUSrcBout),    // input
-    .alu_result(alu_result),  // output
-    .alu_bcond(bcond)     // output
+  Memory Memory(
+    .reset(reset),
+    .clk(clk),
+    .addr(MemAddr),
+    .din(B),
+    .mem_read(MemRead),
+    .mem_write(MemWrite),
+    .dout(dout)
   );
 
-  // ---------- MUX ----------
-  mux2to1 MemorySorucemux (
-    .in0(current_pc),
-    .in1(ALUOut),
-    .sel(IorD),
-    .out(mem_addr)
+  ALUControlUnit ALUControlUnit(
+    .instruction(instruction),
+    .ALUop(ALUop),
+    .ALUCtrlOp(ALUCtrlOp)
   );
 
-  mux2to1 RegSourceMux (
+  ALU ALU(
+    .ALUCtrlOp(ALUCtrlOp),
+    .in_1_ALU(in_1_ALU), 
+    .in_2_ALU(in_2_ALU),
+    .FUNCT(FUNCT),
+    .ALUResult(ALUResult),
+    .bcond(bcond)
+  );
+
+  ControlUnit ControlUnit(
+    .opcode(opcode),
+    .clk(clk),
+    .reset(reset),
+    .bcond(bcond),
+    .PCWriteNotCond(PCWriteNotCond),
+    .PC_Write(PC_Write),
+    .IorD(IorD),
+    .MemRead(MemRead), 
+    .MemWrite(MemWrite),
+    .MemToReg(MemToReg),
+    .IRWrite(IRWrite),
+    .PCSource(PCSource),
+    .ALUop(ALUop),
+    .alu_src_B(alu_src_B),
+    .alu_src_A(alu_src_A),
+    .reg_write(write_enable),
+    .is_ecall(is_ecall)       // output (ecall inst)
+  );
+
+// mux
+  mux2to1 IorD_mux(
     .in0(ALUOut),
-    .in1(wire_MDR),
-    .sel(MemToReg),
-    .out(RegSource)
+    .in1(current_pc),
+    .sel(IorD),
+    .out(MemAddr)
   );
-
-  mux2to1 ALUSourceAmux (
-    .in0(current_pc),
-    .in1(A),
-    .sel(ALUSrcA),
-    .out(ALUSrcAout)
+  
+  mux2to1 alu_src_A_mux(
+    .in0(A),
+    .in1(current_pc),
+    .sel(alu_src_A),
+    .out(in_1_ALU)
   );
- 
-
- // for PCSource
- // needs to be changed from mux2to1 to mux3to1(maybe)
- // 00 -> PC + 4
- // 01 -> branch
- // 10 -> jump
-  mux2to1 ALUOutmux (
-    .in0(alu_result),
-    .in1(ALUOut),
+  
+  mux2to1 pc_source_mux(
+    .in0(ALUOut),
+    .in1(ALUResult),
     .sel(PCSource),
-    .out(PCSrcWire)
+    .out(next_pc)
   );
 
-  //ALUSrcB
-  mux3to1 ALUSourceBmux (
+  mux2to1 mem_to_reg_mux(
+    .in0(MDR),
+    .in1(ALUOut),
+    .sel(MemToReg),
+    .out(rd_din)
+  );
+  
+  mux4to1 alu_src_B_mux(
     .in0(B),
     .in1(32'b100),
     .in2(imm_gen_out),
-    .sel(ALUSrcB),
-    .out(ALUSrcBout)
+    .in3(32'b0),
+    .sel(alu_src_B),
+    .out(in_2_ALU)
   );
 
+/*
+  mux2to1 PC_mux(
+    .in0(regdata),  //기존 data
+    .in1(adder_out),
+    .sel(sel), //JAL, JALR일때만 1
+    .out(regWrite)
+  );
 
+  Adder PC_adder(
+    .in_1(current_pc),
+    .in_2(4),
+    .out(adder_out)
+  );
+*/
 endmodule
