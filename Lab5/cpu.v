@@ -27,8 +27,13 @@ module cpu(input reset,       // positive reset signal
   wire isJAL;
   wire isJALR;
   wire isBranch;
+  wire is_ready;
+  wire isCacheStall;
+  wire is_input_valid;
   wire is_ecall;
   wire isecallForward;
+  wire is_output_valid;
+  wire is_hit;
   wire [1:0] forward_check_rs1;
   wire [1:0] forward_check_rs2;
   wire [4:0] rs1_halt_considered;
@@ -108,6 +113,8 @@ module cpu(input reset,       // positive reset signal
   reg [31:0] MEM_WB_mem_to_reg_src_2;
   reg [4:0] MEM_WB_rd;
   reg [31:0] MEM_WB_inst;
+
+  assign is_input_valid = (EX_MEM_mem_read || EX_MEM_mem_write);
 
   // ---------- Branch Predictor ----------
   // alwaysNotTaken branch_predictor (//correctly implemented
@@ -201,6 +208,7 @@ module cpu(input reset,       // positive reset signal
   PC pc(
     .reset(reset),            // input (Use reset to initialize PC. Initial value must be 0)
     .clk(clk),
+    .isCacheStall(isCacheStall),
     .is_flush(isFlush),
     .is_stall(isStall),
     .next_pc(next_pc),        // input
@@ -216,23 +224,38 @@ module cpu(input reset,       // positive reset signal
 
   // Update IF/ID pipeline registers here
   always @(posedge clk) begin
-    if (reset || isFlush) begin
-      IF_ID_inst <= 32'b0;
-      IF_ID_pc <= 32'b0;
-      IF_ID_bhsr <= 5'b0;
-    end
-    else if(isStall) begin
-      IF_ID_inst <= IF_ID_inst;
-      IF_ID_pc <= IF_ID_pc;
-      IF_ID_bhsr <= IF_ID_bhsr;
-    end
-    else begin
-      IF_ID_inst <= instruction;
-      IF_ID_pc <= current_pc;
-      IF_ID_bhsr <= IF_bhsr;
-    end
+      if (reset) begin
+          if (isCacheStall != 1) begin
+              IF_ID_inst <= 32'b0;
+              IF_ID_pc <= 32'b0;
+              IF_ID_bhsr <= 5'b0;
+          end else begin
+              IF_ID_inst <= IF_ID_inst;
+              IF_ID_pc <= IF_ID_pc;
+              IF_ID_bhsr <= IF_ID_bhsr;
+          end
+      end else if (isFlush) begin
+          if (isCacheStall != 1) begin
+              IF_ID_inst <= 32'b0;
+              IF_ID_pc <= 32'b0;
+              IF_ID_bhsr <= 5'b0;
+          end else begin
+              IF_ID_inst <= IF_ID_inst;
+              IF_ID_pc <= IF_ID_pc;
+              IF_ID_bhsr <= IF_ID_bhsr;
+          end
+      end else begin
+          if (isStall) begin
+              IF_ID_inst <= IF_ID_inst;
+              IF_ID_pc <= IF_ID_pc;
+              IF_ID_bhsr <= IF_ID_bhsr;
+          end else begin
+              IF_ID_inst <= instruction;
+              IF_ID_pc <= current_pc;
+              IF_ID_bhsr <= IF_bhsr;
+          end
+      end
   end
-
 
   RsEcallHandler rs_ecall_handler(
     .is_ecall(is_ecall),
@@ -262,6 +285,11 @@ module cpu(input reset,       // positive reset signal
     .ID_EX_mem_write(ID_EX_mem_write),
     .EX_MEM_rd(EX_MEM_rd),
     .EX_MEM_reg_write(EX_MEM_reg_write),
+    .is_input_valid(is_input_valid),
+    .is_ready(is_ready),
+    .is_hit(is_hit),
+    .is_output_valid(is_output_valid),
+    .isCacheStall(isCacheStall),
     .isStall(isStall)
   );
 
@@ -332,6 +360,26 @@ module cpu(input reset,       // positive reset signal
       ID_EX_rd <= 5'b0;
       ID_EX_bhsr <= 5'b0;
       ID_EX_inst <= 32'b0;
+    end
+    else if (isCacheStall) begin
+      ID_EX_pc <= ID_EX_pc;
+      // From the control unit
+      ID_EX_alu_src <= ID_EX_alu_src;        // will be used in EX stage
+      ID_EX_mem_write <= ID_EX_mem_write;      // will be used in MEM stage
+      ID_EX_mem_read <= ID_EX_mem_read;       // will be used in MEM stage
+      ID_EX_mem_to_reg <= ID_EX_mem_to_reg;     // will be used in WB stage
+      ID_EX_reg_write <= ID_EX_reg_write;      // will be used in WB stage
+      ID_EX_is_jal <= ID_EX_is_jal;
+      ID_EX_is_jalr <= ID_EX_is_jalr;
+      ID_EX_is_branch <= ID_EX_is_branch;
+      ID_EX_pc_to_reg <= ID_EX_pc_to_reg;
+      ID_EX_is_halted <= ID_EX_is_halted;
+      ID_EX_rs1_data <= ID_EX_rs1_data;
+      ID_EX_rs2_data <= ID_EX_rs2_data;
+      ID_EX_imm <= ID_EX_imm;
+      ID_EX_rd <= ID_EX_rd;
+      ID_EX_bhsr <= ID_EX_bhsr;
+      ID_EX_inst <= ID_EX_inst;
     end
     else begin
       ID_EX_pc <= IF_ID_pc;
@@ -409,6 +457,17 @@ module cpu(input reset,       // positive reset signal
       EX_MEM_rd<= 5'b0;
       EX_MEM_inst<= 32'b0;
     end
+    else if (isCacheStall) begin
+      EX_MEM_mem_write<= EX_MEM_mem_write;     // will be used in MEM stage
+      EX_MEM_mem_read<= EX_MEM_mem_read;      // will be used in MEM stage
+      EX_MEM_mem_to_reg<= EX_MEM_mem_to_reg;    // will be used in WB stage
+      EX_MEM_reg_write<= EX_MEM_reg_write;     // will be used in WB stage
+      EX_MEM_alu_out <= EX_MEM_alu_out;
+      EX_MEM_dmem_data <= EX_MEM_dmem_data;
+      EX_MEM_rd <= EX_MEM_rd;
+      EX_MEM_is_halted <= EX_MEM_is_halted;
+      EX_MEM_inst <= EX_MEM_inst;
+    end
     else begin
       EX_MEM_mem_write<= ID_EX_mem_write;     // will be used in MEM stage
       EX_MEM_mem_read<= ID_EX_mem_read;      // will be used in MEM stage
@@ -423,15 +482,41 @@ module cpu(input reset,       // positive reset signal
   end
 
   // ---------- Data Memory ----------
-  DataMemory dmem(
-    .reset (reset),      // input
-    .clk (clk),        // input
-    .addr (EX_MEM_alu_out),       // input
-    .din (EX_MEM_dmem_data),        // input
-    .mem_read (EX_MEM_mem_read),   // input
-    .mem_write (EX_MEM_mem_write),  // input
-    .dout (dout)        // output
+  // DataMemory dmem(
+  //   .reset (reset),      // input
+  //   .clk (clk),        // input
+  //   .addr (EX_MEM_alu_out),       // input
+  //   .din (EX_MEM_dmem_data),        // input
+  //   .mem_read (EX_MEM_mem_read),   // input
+  //   .mem_write (EX_MEM_mem_write),  // input
+  //   .dout (dout)        // output
+  // ); // 일단 is_input_valid, is_output_valid, mem_ready 추가 / din, dout bit 변경 32-> 128
+
+  Cache #(.LINE_SIZE(16), .NUM_SETS(8), .NUM_WAYS(2)) cache (
+    .reset(reset),
+    .clk(clk),
+    .is_input_valid(is_input_valid),
+    .addr(EX_MEM_alu_out),
+    .mem_rw(EX_MEM_mem_write),
+    .din(EX_MEM_dmem_data),
+    .is_ready(is_ready),
+    .is_output_valid(is_output_valid),
+    .dout(dout),
+    .is_hit(is_hit)
   );
+
+  // Direct_mapped_cache #(.LINE_SIZE(16), .NUM_SETS(16)) cache (
+  //   .reset(reset),
+  //   .clk(clk),
+  //   .is_input_valid(is_input_valid),
+  //   .addr(EX_MEM_alu_out),
+  //   .mem_rw(EX_MEM_mem_write),
+  //   .din(EX_MEM_dmem_data),
+  //   .is_ready(is_ready),
+  //   .is_output_valid(is_output_valid),
+  //   .dout(dout),
+  //   .is_hit(is_hit)
+  // );
 
   // Update MEM/WB pipeline registers here
   always @(posedge clk) begin
@@ -444,6 +529,15 @@ module cpu(input reset,       // positive reset signal
       MEM_WB_mem_to_reg_src_2 <= 32'b0;
       MEM_WB_rd <= 5'b0;
       MEM_WB_inst <= 32'b0;
+    end
+    else if (isCacheStall) begin
+      MEM_WB_mem_to_reg <= MEM_WB_mem_to_reg;    // will be used in WB stage
+      MEM_WB_reg_write <=  MEM_WB_reg_write;     // will be used in WB stage
+      MEM_WB_is_halted <= MEM_WB_is_halted;
+      MEM_WB_mem_to_reg_src_1 <= MEM_WB_mem_to_reg_src_1;
+      MEM_WB_mem_to_reg_src_2 <= MEM_WB_mem_to_reg_src_2;
+      MEM_WB_rd <= MEM_WB_rd;
+      MEM_WB_inst <= MEM_WB_inst;
     end
     else begin
       MEM_WB_mem_to_reg <= EX_MEM_mem_to_reg;    // will be used in WB stage
